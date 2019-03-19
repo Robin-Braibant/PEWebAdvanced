@@ -463,7 +463,7 @@ final class Test
                 if (!\is_array($value)) {
                     throw new Exception(
                         \sprintf(
-                            'Data set %s is invalid.',
+                            'data set %s is invalid.',
                             \is_int($key) ? '#' . $key : '"' . $key . '"'
                         )
                     );

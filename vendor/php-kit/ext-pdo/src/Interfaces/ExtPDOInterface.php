@@ -152,7 +152,7 @@ interface ExtPDOInterface
    *
    * ####  string $statement
    * The SQL statement to prepare and execute.
-   * <p>Data inside the query should be properly escaped.
+   * <p>data inside the query should be properly escaped.
    *
    * #### int $mode
    * The fetch mode must be one of the <b>PDO::FETCH_*</b> constants.
