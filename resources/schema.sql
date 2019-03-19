@@ -1,3 +1,4 @@
+use Restaurants;
 
 CREATE TABLE klanten
 (
@@ -15,9 +16,15 @@ CREATE TABLE klanten_gerechten
 CREATE TABLE gerechten
 (
   id serial PRIMARY KEY,
-  image VARCHAR(100),
   name VARCHAR(100),
+  image VARCHAR(100),
   price DOUBLE
+);
+
+CREATE TABLE gerecht_assortiment
+(
+  gerecht_id INTEGER,
+  assortiment_id INTEGER
 );
 
 CREATE TABLE assortiment
