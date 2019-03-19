@@ -7,7 +7,7 @@
   },
   "autoload": {
     "psr-4": {
-      "MaximCoppieters\\":"src/"
+      "Restaurant\\":"src/"
     }
   },
   "require-dev": {
