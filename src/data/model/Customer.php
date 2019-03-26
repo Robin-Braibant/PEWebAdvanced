@@ -1,4 +1,4 @@
-<?php
+<?php namespace Restaurant\data\model;
 /**
  * Created by PhpStorm.
  * User: mcoppieters
@@ -6,7 +6,6 @@
  * Time: 09:12
  */
 
-namespace Restaurant\data\model;
 
 
 class Customer

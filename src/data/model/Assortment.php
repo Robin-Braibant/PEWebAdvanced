@@ -1,12 +1,10 @@
-<?php
+<?php namespace Restaurant\data\model;
 /**
  * Created by PhpStorm.
  * User: mcoppieters
  * Date: 26/03/19
  * Time: 09:13
  */
-
-namespace Restaurant\data\model;
 
 
 class Assortment
