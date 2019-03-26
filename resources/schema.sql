@@ -1,19 +1,19 @@
 use Restaurants;
 
-CREATE TABLE klanten
+CREATE TABLE klant
 (
   id serial PRIMARY KEY,
   name VARCHAR(100),
   password VARCHAR(100)
 );
 
-CREATE TABLE klanten_gerechten
+CREATE TABLE klant_gerecht
 (
   klant_id INTEGER,
   gerecht_id INTEGER
 );
 
-CREATE TABLE gerechten
+CREATE TABLE gerecht
 (
   id serial PRIMARY KEY,
   name VARCHAR(100),
@@ -35,7 +35,7 @@ CREATE TABLE assortiment
   gerecht_id INTEGER
 );
 
-CREATE TABLE bestellingen
+CREATE TABLE bestelling
 (
   blog_post_id INTEGER,
   blog_comment_id INTEGER,
