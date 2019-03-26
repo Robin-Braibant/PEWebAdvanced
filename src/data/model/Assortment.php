@@ -6,7 +6,6 @@
  * Time: 09:13
  */
 
-
 class Assortment
 {
     private $id;

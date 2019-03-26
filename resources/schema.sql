@@ -1,5 +1,11 @@
 use Restaurants;
 
+DROP TABLE IF EXISTS customer;
+DROP TABLE IF EXISTS customer_meal;
+DROP TABLE IF EXISTS meal;
+DROP TABLE IF EXISTS meal_assortment;
+DROP TABLE IF EXISTS assortment;
+
 CREATE TABLE customer
 (
   id serial PRIMARY KEY,
@@ -34,16 +40,3 @@ CREATE TABLE assortment
   price DOUBLE,
   gerecht_id INTEGER
 );
-
-CREATE TABLE order
-(
-  id serial PRIMARY KEY,
-
-);
-
-CREATE TABLE order_customer
-(
-
-
-);
-
