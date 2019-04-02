@@ -10,11 +10,11 @@ class BaseController
     protected $flash;
     protected $em;  // Entities Manager
 
-    public function __construct(Container $c)
+    public function __construct(Container $container)
     {
-        $this->view = $c->get('view');
-        $this->logger = $c->get('logger');
-        $this->flash = $c->get('flash');
-        $this->em = $c->get('em');
+        $this->view = $container->get('view');
+        $this->logger = $container->get('logger');
+        $this->flash = $container->get('flash');
+        $this->em = $container->get('em');
     }
 }

@@ -6,3 +6,4 @@ $app->get('/', 'App\Controller\HomeController:dispatch')
 
 $app->get('/post/{id}', 'App\Controller\HomeController:viewPost')
     ->setName('view_post');
+
