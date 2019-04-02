@@ -1,4 +1,4 @@
-<?php namespace Restaurant\data\model;
+<?php namespace App\Model;
 /**
  * Created by PhpStorm.
  * User: mcoppieters

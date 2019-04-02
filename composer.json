@@ -1,14 +1,15 @@
 {
   "require": {
-    "slim/slim": "^3.0",
-    "ext-json": "*",
-    "php-kit/ext-pdo": "^1.1",
-    "ext-pdo": "*",
-    "slim/php-view": "^2.2"
+    "slim/slim": "~3.0",
+    "slim/twig-view": "^2.0",
+    "slim/flash": "^0.1.0",
+    "monolog/monolog": "^1.17",
+    "doctrine/orm": "2.5.*"
   },
   "autoload": {
     "psr-4": {
-      "Restaurant\\":"src/"
+      "App\\Controller\\": "app/src/controllers",
+      "App\\Model\\": "app/src/models"
     }
   },
   "require-dev": {
