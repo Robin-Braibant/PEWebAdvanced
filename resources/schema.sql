@@ -5,7 +5,7 @@ DROP TABLE IF EXISTS customer_meal;
 DROP TABLE IF EXISTS meal;
 DROP TABLE IF EXISTS meal_assortment;
 DROP TABLE IF EXISTS assortment;
-DROP TABLE IF EXISTS order;
+DROP TABLE IF EXISTS orders;
 
 CREATE TABLE customer
 (
@@ -49,7 +49,7 @@ CREATE TABLE order_meal
   PRIMARY KEY (order_id, meal_id)
 );
 
-CREATE TABLE order
+CREATE TABLE orders
 (
   id serial PRIMARY KEY,
   customer_id INTEGER,
