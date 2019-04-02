@@ -12,11 +12,11 @@ $config->setProxyDir(__DIR__ . '/Proxies');
 $config->setProxyNamespace('Proxies');
 $connectionParams = array(
     'driver' => 'pdo_mysql',
-    'host' => '127.0.0.1',
-    'port' => '8889',
+    'host' => 'localhost',
+    'port' => '3306',
     'user' => 'root',
     'password' => 'root',
-    'dbname' => 'blog',
+    'dbname' => 'Restaurants',
     'charset' => 'utf8',
 );
 $em = \Doctrine\ORM\EntityManager::create($connectionParams, $config);
