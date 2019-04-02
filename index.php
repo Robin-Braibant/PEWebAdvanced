@@ -13,6 +13,10 @@ $app->get('/', function(Request $request, Response $response) {
 
     $response->getBody()->write('Hello world');
 
+    $customerService = $this->get('customerService');
+
+    $customerService->getAll();
+
     return $response;
 });
 
