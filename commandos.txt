@@ -1,3 +1,6 @@
 composer install
 composer update
 composer -o dump-autoload
+
+sudo apt-get install php7.3-xml
+sudo apt-get install php-mbstring
