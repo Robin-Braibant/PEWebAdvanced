@@ -6,30 +6,18 @@
  * Time: 09:13
  */
 
+/**
+ * @Entity @Table(name="orders")
+ **/
 class Order
 {
+    /** @Column(type="integer") @GeneratedValue **/
     private $id;
+    /** @Column(type="array") **/
     private $customers;
+    /** @Column(type="array") **/
     private $meals;
 
-    /**
-     * Order constructor.
-     * @param $customers
-     * @param $meals
-     */
-    public function __construct($customers, $meals)
-    {
-        $this->customers = $customers;
-        $this->meals = $meals;
-    }
-
-    /**
-     * @param mixed $id
-     */
-    public function setId($id)
-    {
-        $this->id = $id;
-    }
 
     /**
      * @return mixed
@@ -46,4 +34,22 @@ class Order
     {
         return $this->meals;
     }
+
+    /**
+     * @param mixed $customers
+     */
+    public function setCustomers($customers): void
+    {
+        $this->customers = $customers;
+    }
+
+    /**
+     * @param mixed $meals
+     */
+    public function setMeals($meals): void
+    {
+        $this->meals = $meals;
+    }
+
+
 }

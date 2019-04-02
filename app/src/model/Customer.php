@@ -6,44 +6,20 @@
  * Time: 09:12
  */
 
-
-
+/**
+ * @Entity @Table(name="customers")
+ **/
 class Customer
 {
-    private $id;
-    private $name;
-    private $password;
+    /** @Column(type="integer") @GeneratedValue **/
+    protected $id;
+    /** @Column(type="string") **/
+    protected $name;
+    /** @Column(type="string") **/
+    protected $password;
 
     /**
-     * Customer constructor.
-     * @param $name
-     * @param $password
-     */
-    public function __construct($name, $password)
-    {
-        $this->name = $name;
-        $this->password = $password;
-    }
-
-    /**
-     * @param mixed $id
-     */
-    public function setId($id)
-    {
-        $this->id = $id;
-    }
-
-
-    /**
-     * @return mixed
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * @return mixed
+     * @return String
      */
     public function getName()
     {
@@ -51,10 +27,26 @@ class Customer
     }
 
     /**
-     * @return mixed
+     * @return String
      */
     public function getPassword()
     {
         return $this->password;
+    }
+
+    /**
+     * @param String $name
+     */
+    public function setName($name): void
+    {
+        $this->name = $name;
+    }
+
+    /**
+     * @param String $password
+     */
+    public function setPassword($password): void
+    {
+        $this->password = $password;
     }
 }

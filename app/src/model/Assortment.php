@@ -6,30 +6,18 @@
  * Time: 09:13
  */
 
+/**
+ * @Entity @Table(name="assortments")
+ **/
 class Assortment
 {
-    private $id;
-    private $name;
-    private $price;
+    /** @Column(type="integer") @GeneratedValue **/
+    protected $id;
+    /** @Column(type="string") **/
+    protected $name;
+    /** @Column(type="double") **/
+    protected $price;
 
-    /**
-     * Assortment constructor.
-     * @param String $name
-     * @param double $price
-     */
-    public function __construct($name, $price)
-    {
-        $this->name = $name;
-        $this->price = $price;
-    }
-
-    /**
-     * @param mixed $id
-     */
-    public function setId($id)
-    {
-        $this->id = $id;
-    }
 
     /**
      * @return String
@@ -40,7 +28,23 @@ class Assortment
     }
 
     /**
-     * @return float
+     * @param String $name
+     */
+    public function setName($name): void
+    {
+        $this->name = $name;
+    }
+
+    /**
+     * @param double $price
+     */
+    public function setPrice($price): void
+    {
+        $this->price = $price;
+    }
+
+    /**
+     * @return double
      */
     public function getPrice()
     {

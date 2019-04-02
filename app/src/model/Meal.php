@@ -6,43 +6,20 @@
  * Time: 09:12
  */
 
-
+/**
+ * @Entity @Table(name="meals")
+ **/
 class Meal
 {
-    private $id;
-    private $name;
-    private $image;
-    private $price;
+    /** @Column(type="integer") @GeneratedValue **/
+    protected $id;
+    /** @Column(type="string") **/
+    protected $name;
+    /** @Column(type="string") **/
+    protected $image;
+    /** @Column(type="double") **/
+    protected $price;
 
-    /**
-     * Meal constructor.
-     * @param Integer $id
-     * @param String $name
-     * @param String $image
-     * @param double $price
-     */
-    public function __construct($name, $image, $price)
-    {
-        $this->name = $name;
-        $this->image = $image;
-        $this->price = $price;
-    }
-
-    /**
-     * @param mixed $id
-     */
-    public function setId($id)
-    {
-        $this->id = $id;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
 
     /**
      * @return String
@@ -61,10 +38,36 @@ class Meal
     }
 
     /**
-     * @return float
+     * @return double
      */
     public function getPrice()
     {
         return $this->price;
     }
+
+    /**
+     * @param String $name
+     */
+    public function setName($name): void
+    {
+        $this->name = $name;
+    }
+
+    /**
+     * @param String $image
+     */
+    public function setImage($image): void
+    {
+        $this->image = $image;
+    }
+
+    /**
+     * @param double $price
+     */
+    public function setPrice($price): void
+    {
+        $this->price = $price;
+    }
+
+
 }
