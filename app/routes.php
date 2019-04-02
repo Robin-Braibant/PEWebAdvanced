@@ -1,9 +1,8 @@
 <?php
 // Routes
 
-$app->get('/', 'App\Controller\HomeController:dispatch')
+$app->get('/', 'App\Controller\UserController:dispatch')
     ->setName('homepage');
 
-$app->get('/post/{id}', 'App\Controller\HomeController:viewPost')
-    ->setName('view_post');
-
+$app->get('/order', 'App\Controller\OrderController:dispatch')
+    ->setName('orderpage');
