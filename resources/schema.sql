@@ -15,8 +15,8 @@ CREATE TABLE customer
 
 CREATE TABLE customer_meal
 (
-  klant_id INTEGER,
-  gerecht_id INTEGER
+  customer_id INTEGER,
+  meal_id INTEGER
 );
 
 CREATE TABLE meal
@@ -29,8 +29,8 @@ CREATE TABLE meal
 
 CREATE TABLE meal_assortment
 (
-  gerecht_id INTEGER,
-  assortiment_id INTEGER
+  meal_id INTEGER,
+  assortment_id INTEGER
 );
 
 CREATE TABLE assortment
@@ -38,5 +38,5 @@ CREATE TABLE assortment
   id serial PRIMARY KEY,
   name VARCHAR(100),
   price DOUBLE,
-  gerecht_id INTEGER
+  meal_id INTEGER
 );

@@ -21,4 +21,8 @@ $container['mealService'] = function ($container) {
     return $mealService;
 };
 
+$container['renderer'] = function ($container) {
+    return new \Slim\Views\PhpRenderer('src/view');
+};
+
 var_export($container, true);
