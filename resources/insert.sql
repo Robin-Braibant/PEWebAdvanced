@@ -1,6 +1,6 @@
 USE Restaurants;
 
-insert into gerecht(name, image, price)
+insert into meal(name, image, price)
   values('Biefstuk', 'biefstuk.jpg', 26.00),
         ('Koninginnenhapje', 'koninginnenhap.jpg', 16.00),
         ('Ribbetjes', 'ribbetjes.jpg', 18.00),
@@ -9,22 +9,22 @@ insert into gerecht(name, image, price)
         ('Zalmfilet', 'zalm.jpg', 24.00);
 
 
-insert into assortiment(name, price)
+insert into assortment(name, price)
 values('Frieten', 2.50),
       ('Kroketten', 3.00),
       ('Peperroomsaus', 1.50),
       ('Béarnaise', 1.00),
       ('Wittewijnsaus', 1.00);
 
-insert into gerecht_assortiment(gerecht_id, assortiment_id)
-  values((select id from gerecht where name='Biefstuk'), (select id from assortiment where name='Frieten')),
-        ((select id from gerecht where name='Biefstuk'), (select id from assortiment where name='Kroketten')),
-        ((select id from gerecht where name='Biefstuk'), (select id from assortiment where name='Peperroomsaus')),
-        ((select id from gerecht where name='Biefstuk'), (select id from assortiment where name='Béarnaise')),
-        ((select id from gerecht where name='Koninginnenhapje'), (select id from assortiment where name='Kroketten')),
-        ((select id from gerecht where name='Koninginnenhapje'), (select id from assortiment where name='Frieten'));
+insert into meal_assortment(meal_id, assortment_id)
+  values((select id from meal where name='Biefstuk'), (select id from assortment where name='Frieten')),
+        ((select id from meal where name='Biefstuk'), (select id from assortment where name='Kroketten')),
+        ((select id from meal where name='Biefstuk'), (select id from assortment where name='Peperroomsaus')),
+        ((select id from meal where name='Biefstuk'), (select id from assortment where name='Béarnaise')),
+        ((select id from meal where name='Koninginnenhapje'), (select id from assortment where name='Kroketten')),
+        ((select id from meal where name='Koninginnenhapje'), (select id from assortment where name='Frieten'));
 
-insert into klant(name, password)
+insert into customer(name, password)
   values('Robin', 'paswoord'),
         ('Shane', 'paswoord'),
         ('Lars', 'paswoord'),
