@@ -1,25 +1,30 @@
-<?php namespace Restaurant\data\model;
+<?php namespace App\Model;
 /**
  * Created by PhpStorm.
  * User: mcoppieters
  * Date: 26/03/19
- * Time: 09:13
+ * Time: 09:12
  */
 
-class Assortment
+
+class Meal
 {
     private $id;
     private $name;
+    private $image;
     private $price;
 
     /**
-     * Assortment constructor.
+     * Meal constructor.
+     * @param Integer $id
      * @param String $name
+     * @param String $image
      * @param double $price
      */
-    public function __construct($name, $price)
+    public function __construct($name, $image, $price)
     {
         $this->name = $name;
+        $this->image = $image;
         $this->price = $price;
     }
 
@@ -32,11 +37,27 @@ class Assortment
     }
 
     /**
+     * @return mixed
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
      * @return String
      */
     public function getName()
     {
         return $this->name;
+    }
+
+    /**
+     * @return String
+     */
+    public function getImage()
+    {
+        return $this->image;
     }
 
     /**
