@@ -1,14 +1,19 @@
 # OP VAGRANT UITVOEREN
-
+# installatie
 sudo apt-get install php7.3-xml php-mbstring php7.3-mysql
 sudo phpenmod pdo_mysql
-sudo service apache2 restart
-
 sudo a2dismod php7.0
 sudo a2enmod php7.3
 sudo service apache2 restart
 sudo chmod 777 /var/www/html -R
+sudo service apache2 restart
 
 composer install
 composer update
 composer -o dump-autoload
+
+# Folders kopieren naar vagrant
+run deploy.sh bestand
+
+# Uit te voeren bij migration
+vendor/bin/doctrine orm:schema-tool:update --force --dump-sql

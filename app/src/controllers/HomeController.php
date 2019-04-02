@@ -23,7 +23,7 @@ final class HomeController extends BaseController
         $messages = $this->flash->getMessage('info');
 
         try {
-            $post = $this->em->find('App\Model\Post', intval($args['id']));
+            $post = $this->entityManager->find('App\Model\Post', intval($args['id']));
         } catch (\Exception $e) {
             echo $e->getMessage();
             die;

@@ -6,6 +6,7 @@
  * Time: 09:12
  */
 
+use Doctrine\Common\Annotations\Entity;
 /**
  * @Entity @Table(name="customers")
  **/
