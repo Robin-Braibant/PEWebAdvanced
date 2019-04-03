@@ -18,18 +18,18 @@ class CustomerValidator
      * @param Customer $customer
      * @return AuthenticationAttempt
      */
-    function validate(Customer $customer) {
-        $errorAuthenticationAttempt = $this->validatePossibleErrors($customer);
+    function validateRegistry(Customer $customer) : AuthenticationAttempt {
+        $errorAuthenticationAttempt = $this->validatePossibleRegistryErrors($customer);
 
         return $errorAuthenticationAttempt ?
-            $errorAuthenticationAttempt : $this->createSuccesfulAuthenticationAttempt();
+            $errorAuthenticationAttempt : $this->createSuccessfulAuthenticationAttempt();
     }
 
     /**
      * @param $customer
      * @return AuthenticationAttempt|null
      */
-    function validatePossibleErrors($customer) {
+    function validatePossibleRegistryErrors($customer) {
         if ($customer->getPassword() !== $customer->getConfirmPassword()) {
             return $this->createFailedAuthenticationAttemptWithMessage( "Password wasn't identical to confirm password");
         }
@@ -42,7 +42,7 @@ class CustomerValidator
                 "Password should at least be " . CustomerValidator::$MIN_PASSWORD_LENGTH . " characters long");
         }
 
-        if ($this->customerAlreadyExists($customer)) {
+        if ($this->usernameIsTaken($customer)) {
             return $this->createFailedAuthenticationAttemptWithMessage
             ("User " . $customer->getName() . " already exists.");
         }
@@ -50,15 +50,35 @@ class CustomerValidator
         return null;
     }
 
-    function userNameisTooShort(String $username) {
+    function userNameisTooShort(String $username) : bool {
         return strlen($username) < CustomerValidator::$MIN_USERNAME_LENGTH;
     }
 
-    function passwordIsTooShort(String $password) {
+    function passwordIsTooShort(String $password) : bool {
         return strlen($password) < CustomerValidator::$MIN_PASSWORD_LENGTH;
     }
 
-    function createFailedAuthenticationAttemptWithMessage($message) {
+    /**
+     * @param Customer $customer
+     * @return AuthenticationAttempt
+     */
+    function validateLogin(Customer $customer) : AuthenticationAttempt {
+        $errorAuthenticationAttempt = $this->validatePossibleLoginErrors($customer);
+
+        return $errorAuthenticationAttempt ?
+            $errorAuthenticationAttempt : $this->createSuccessfulAuthenticationAttempt();
+    }
+
+    private function validatePossibleLoginErrors(Customer $customer) : AuthenticationAttempt {
+        if (!$this->customerExists($customer)) {
+            return $this
+                ->createFailedAuthenticationAttemptWithMessage("Username or password was wrong");
+        }
+
+        return $this->createSuccessfulAuthenticationAttempt();
+    }
+
+    function createFailedAuthenticationAttemptWithMessage($message) : AuthenticationAttempt {
         $authenticationAttempt = new AuthenticationAttempt();
 
         $authenticationAttempt->setErrorMessage($message);
@@ -67,20 +87,33 @@ class CustomerValidator
         return $authenticationAttempt;
     }
 
-    function createSuccesfulAuthenticationAttempt() {
+    function createSuccessfulAuthenticationAttempt() : AuthenticationAttempt {
         $authenticationAttempt = new AuthenticationAttempt();
         $authenticationAttempt->setWasSuccesful(true);
         return $authenticationAttempt;
+    }
+
+    function customerExists(Customer $customer) : bool {
+        $credentialsProperties = [
+            'name' => $customer->getName(),
+            'password' => $customer->getPassword()
+        ];
+        return $this->customerWithPropertiesExists($credentialsProperties);
     }
 
     /**
      * @param Customer $customer
      * @return bool
      */
-    function customerAlreadyExists($customer) {
+    function usernameIsTaken(Customer $customer) : bool {
+        $userNameProperty = array('name' => $customer->getName());
+        return $this->customerWithPropertiesExists($userNameProperty);
+    }
+
+    function customerWithPropertiesExists($properties) : bool {
         $result = $this->entityManager
             ->getRepository('App\Model\Customer')
-            ->findBy(array('name' => $customer->getName()));
+            ->findBy($properties);
         return sizeof($result) >= 1;
     }
 }

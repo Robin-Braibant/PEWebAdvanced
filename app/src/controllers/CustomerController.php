@@ -36,7 +36,17 @@ class CustomerController extends BaseController
     {
         $this->logger->info("Home page action dispatched");
 
-        $this->view->render($response, 'index.twig');
+        $formData = $request->getParsedBody();
+        $customer = $this->createCustomerFromFormData($formData);
+        $authenticationAttempt = $this->customerValidator->validateLogin($customer);
+
+        if ($authenticationAttempt->getWasSuccesful()) {
+            $this->view->render($response, 'order.twig');
+        } else {
+            $this->view->render($response, 'index.twig',
+                ['user_error' => $authenticationAttempt->getErrorMessage()]);
+        }
+
         return $response;
     }
 
@@ -51,14 +61,10 @@ class CustomerController extends BaseController
     public function register(Request $request, Response $response, $args)
     {
         $this->logger->info("Home page action dispatched");
-        $body = $request->getParsedBody();
 
-        $customer = new Customer();
-        $customer->setName($body["username"]);
-        $customer->setPassword($body["password"]);
-        $customer->setConfirmPassword($body["confirm-password"]);
-
-        $authenticationAttempt = $this->customerValidator->validate($customer);
+        $formData = $request->getParsedBody();
+        $customer = $this->createCustomerFromFormData($formData);
+        $authenticationAttempt = $this->customerValidator->validateRegistry($customer);
 
         if ($authenticationAttempt->getWasSuccesful()) {
             $this->entityManager->persist($customer);
@@ -76,21 +82,19 @@ class CustomerController extends BaseController
         return $response;
     }
 
-    public function viewPost(Request $request, Response $response, $args)
-    {
-        $request->
-        $this->logger->info("View post using Doctrine with Slim 3");
+    private function createCustomerFromFormData($formData) {
+        $customer = new Customer();
 
-        $messages = $this->flash->getMessage('info');
-
-        try {
-            $post = $this->entityManager->find('App\Model\Post', intval($args['id']));
-        } catch (\Exception $e) {
-            echo $e->getMessage();
-            die;
+        $customer->setName($formData["username"]);
+        $customer->setPassword($formData["password"]);
+        if ($this->formDataIsFromRegisterPage($formData)) {
+            $customer->setConfirmPassword($formData["confirm-password"]);
         }
 
-        $this->view->render($response, 'post.twig', ['post' => $post, 'flash' => $messages]);
-        return $response;
+        return $customer;
+    }
+
+    private function formDataIsFromRegisterPage($formData) : bool {
+        return isset($formData["confirm-password"]);
     }
 }

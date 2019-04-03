@@ -14,12 +14,13 @@
             <h3>
                 Login to continue.
             </h3>
-            <form role="form" method="post" action="/loginuser">
+            <form role="form" method="post">
                 <div class="form-group">
                     <label for="exampleInputEmail1">
                         Username:
                     </label>
                     <input type="text" name="username" class="form-control" id="exampleInputEmail1" />
+                    <span class="text-danger">{{ username_error }}</span>
                 </div>
                 <div class="form-group">
 
@@ -27,6 +28,7 @@
                         Password:
                     </label>
                     <input type="password" name="password" class="form-control" id="exampleInputPassword1" />
+                    <span class="text-danger">{{ password_error }}</span>
                 </div>
 
                 <button type="submit" class="btn btn-primary">
