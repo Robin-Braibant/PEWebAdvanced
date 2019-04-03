@@ -1,17 +1,17 @@
 <?php namespace App\Model;
-/**
- * Created by PhpStorm.
- * User: mcoppieters
- * Date: 26/03/19
- * Time: 09:12
- */
+
+use Doctrine\ORM\Mapping\Entity as Entity;
+use Doctrine\ORM\Mapping\Column as Column;
+use Doctrine\ORM\Mapping\Table as Table;
+use Doctrine\ORM\Mapping\GeneratedValue as GeneratedValue;
+use Doctrine\ORM\Mapping\Id as Id;
 
 /**
  * @Entity @Table(name="meals")
  **/
 class Meal
 {
-    /** @Column(type="integer") @GeneratedValue **/
+    /** @Id @Column(type="integer") @GeneratedValue **/
     protected $id;
     /** @Column(type="string") **/
     protected $name;
@@ -68,6 +68,4 @@ class Meal
     {
         $this->price = $price;
     }
-
-
 }
