@@ -17,7 +17,7 @@ class Meal
     protected $name;
     /** @Column(type="string") **/
     protected $image;
-    /** @Column(type="double") **/
+    /** @Column(type="float") **/
     protected $price;
 
 

@@ -29,6 +29,10 @@ $container['flash'] = function ($c) {
 // -----------------------------------------------------------------------------
 
 // doctrine EntityManager
+/**
+ * @param $c
+ * @return \Doctrine\ORM\EntityManager
+ */
 $container['em'] = function ($c) {
     $settings = $c->get('settings');
     $config = \Doctrine\ORM\Tools\Setup::createAnnotationMetadataConfiguration(
@@ -54,6 +58,14 @@ $container['logger'] = function ($c) {
 // Controller factories
 // -----------------------------------------------------------------------------
 
-$container['App\Controller\HomeController'] = function ($c) {
-    return new App\Controller\HomeController($c);
+$container['App\Controller\CustomerController'] = function ($c) {
+    return new App\Controller\CustomerController($c);
+};
+
+$container['App\Controller\OrderController'] = function ($c) {
+    return new App\Controller\OrderController($c);
+};
+
+$container['customerValidator'] = function ($c) {
+    return new App\Helper\CustomerValidator($c);
 };

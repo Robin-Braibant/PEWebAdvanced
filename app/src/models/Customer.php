@@ -13,10 +13,14 @@ class Customer
 {
     /** @Id @Column(type="integer") @GeneratedValue **/
     protected $id;
-    /** @Column(type="string") **/
+    /**
+     * @Column(type="string")
+     **/
     protected $name;
-    /** @Column(type="string") **/
+    /** @Column(type="string", unique=true) **/
     protected $password;
+
+    private $confirmPassword;
 
     /**
      * @return String
@@ -48,5 +52,37 @@ class Customer
     public function setPassword($password): void
     {
         $this->password = $password;
+    }
+
+    /**
+     * @return String
+     */
+    public function getConfirmPassword()
+    {
+        return $this->confirmPassword;
+    }
+
+    /**
+     * @param String $confirmPassword
+     */
+    public function setConfirmPassword($confirmPassword): void
+    {
+        $this->confirmPassword = $confirmPassword;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param mixed $id
+     */
+    public function setId($id): void
+    {
+        $this->id = $id;
     }
 }

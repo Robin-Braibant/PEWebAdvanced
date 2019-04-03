@@ -9,7 +9,8 @@
   "autoload": {
     "psr-4": {
       "App\\Controller\\": "app/src/controllers",
-      "App\\Model\\": "app/src/models"
+      "App\\Model\\": "app/src/models",
+      "App\\Helper\\": "app/src/helpers"
     }
   },
   "require-dev": {

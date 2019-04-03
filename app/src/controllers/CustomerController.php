@@ -7,13 +7,20 @@
  * Time: 10:50
  */
 
+use App\Helper\CustomerValidator;
 use App\Model\Customer;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
 
-class UserController extends BaseController
+class CustomerController extends BaseController
 {
-    protected $container;
+    private $customerValidator;
+
+    public function __construct($container)
+    {
+        parent::__construct($container);
+        $this->customerValidator = $container->get('customerValidator');
+    }
 
     public function dispatchLoginPage(Request $request, Response $response, $args)
     {
@@ -46,22 +53,25 @@ class UserController extends BaseController
         $this->logger->info("Home page action dispatched");
         $body = $request->getParsedBody();
 
-        $username = $body["username"];
-        $password = $body["password"];
-        $confirmPassword = $body["confirm-password"];
+        $customer = new Customer();
+        $customer->setName($body["username"]);
+        $customer->setPassword($body["password"]);
+        $customer->setConfirmPassword($body["confirm-password"]);
 
-        if ($password === $confirmPassword) {
-            $customer = new Customer();
-            $customer->setName($username);
-            $customer->setPassword($password);
+        $authenticationAttempt = $this->customerValidator->validate($customer);
 
+        if ($authenticationAttempt->getWasSuccesful()) {
             $this->entityManager->persist($customer);
+            $this->entityManager->flush();
 
-            $response->getBody()->write("Account " . $username . " created.");
+            $response->getBody()->write("Account " . $customer->getName() . " created.");
             $this->view->render($response, 'index.twig');
         } else {
-            $this->view->render($response, 'register.twig');
-/*            $response->getBody()->write("Password was not the same twice.");*/
+            $errorField = $authenticationAttempt->hasPasswordError()
+                ? "password_error" : "username_error";
+
+            $this->view->render($response, 'register.twig',
+                [$errorField => $authenticationAttempt->getErrorMessage()]);
         }
         return $response;
     }

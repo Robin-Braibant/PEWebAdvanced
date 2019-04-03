@@ -27,7 +27,7 @@ return [
                 'driver'   => 'pdo_mysql',
                 'host'     => 'localhost',
                 'port'     => 3306,
-                'dbname'   => 'blog',
+                'dbname'   => 'Restaurants',
                 'user'     => 'root',
                 'password' => 'root',
             ]

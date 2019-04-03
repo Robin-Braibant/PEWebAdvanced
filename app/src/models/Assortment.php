@@ -15,9 +15,8 @@ class Assortment
     protected $id;
     /** @Column(type="string") **/
     protected $name;
-    /** @Column(type="double") **/
+    /** @Column(type="float") **/
     protected $price;
-
 
     /**
      * @return String
