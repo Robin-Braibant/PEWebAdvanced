@@ -1,6 +1,6 @@
 <?php namespace App\Helper;
 
-use App\Model\AuthenticationAttempt;
+use App\Model\AuthenticationException;
 use App\Model\Customer;
 
 class CustomerValidator
@@ -16,38 +16,36 @@ class CustomerValidator
 
     /**
      * @param Customer $customer
-     * @return AuthenticationAttempt
+     * @return void
+     * @throws AuthenticationException
      */
-    function validateRegistry(Customer $customer) : AuthenticationAttempt {
-        $errorAuthenticationAttempt = $this->validatePossibleRegistryErrors($customer);
-
-        return $errorAuthenticationAttempt ?
-            $errorAuthenticationAttempt : $this->createSuccessfulAuthenticationAttempt();
+    function validateRegistry(Customer $customer) {
+        $this->validatePossibleRegistryErrors($customer);
     }
 
     /**
      * @param $customer
-     * @return AuthenticationAttempt|null
+     * @return void
+     * @throws AuthenticationException
      */
     function validatePossibleRegistryErrors($customer) {
         if ($customer->getPassword() !== $customer->getConfirmPassword()) {
-            return $this->createFailedAuthenticationAttemptWithMessage( "Password wasn't identical to confirm password");
+            throw new AuthenticationException("Password wasn't identical to confirm password");
         }
         if ($this->userNameisTooShort($customer->getName())) {
-            return $this->createFailedAuthenticationAttemptWithMessage
-            ( "Username should at least be " . CustomerValidator::$MIN_USERNAME_LENGTH . " characters long");
+            throw new
+                AuthenticationException( "Username should at least be " .
+                        CustomerValidator::$MIN_USERNAME_LENGTH . " characters long");
         }
         if ($this->passwordIsTooShort($customer->getPassword())) {
-            return $this->createFailedAuthenticationAttemptWithMessage(
-                "Password should at least be " . CustomerValidator::$MIN_PASSWORD_LENGTH . " characters long");
+            throw new
+                AuthenticationException("Password should at least be " .
+                        CustomerValidator::$MIN_PASSWORD_LENGTH . " characters long");
         }
 
         if ($this->usernameIsTaken($customer)) {
-            return $this->createFailedAuthenticationAttemptWithMessage
-            ("User " . $customer->getName() . " already exists.");
+            throw new AuthenticationException("User " . $customer->getName() . " already exists.");
         }
-
-        return null;
     }
 
     function userNameisTooShort(String $username) : bool {
@@ -60,37 +58,16 @@ class CustomerValidator
 
     /**
      * @param Customer $customer
-     * @return AuthenticationAttempt
+     * @throws AuthenticationException
      */
-    function validateLogin(Customer $customer) : AuthenticationAttempt {
-        $errorAuthenticationAttempt = $this->validatePossibleLoginErrors($customer);
-
-        return $errorAuthenticationAttempt ?
-            $errorAuthenticationAttempt : $this->createSuccessfulAuthenticationAttempt();
+    function validateLogin(Customer $customer) {
+        $this->validatePossibleLoginErrors($customer);
     }
 
-    private function validatePossibleLoginErrors(Customer $customer) : AuthenticationAttempt {
+    private function validatePossibleLoginErrors(Customer $customer) {
         if (!$this->customerExists($customer)) {
-            return $this
-                ->createFailedAuthenticationAttemptWithMessage("Username or password was wrong");
+            throw new AuthenticationException("Username or password was wrong");
         }
-
-        return $this->createSuccessfulAuthenticationAttempt();
-    }
-
-    function createFailedAuthenticationAttemptWithMessage($message) : AuthenticationAttempt {
-        $authenticationAttempt = new AuthenticationAttempt();
-
-        $authenticationAttempt->setErrorMessage($message);
-        $authenticationAttempt->setWasSuccesful(false);
-
-        return $authenticationAttempt;
-    }
-
-    function createSuccessfulAuthenticationAttempt() : AuthenticationAttempt {
-        $authenticationAttempt = new AuthenticationAttempt();
-        $authenticationAttempt->setWasSuccesful(true);
-        return $authenticationAttempt;
     }
 
     function customerExists(Customer $customer) : bool {

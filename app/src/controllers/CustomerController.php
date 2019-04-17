@@ -8,6 +8,7 @@
  */
 
 use App\Helper\CustomerValidator;
+use App\Model\AuthenticationException;
 use App\Model\Customer;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
@@ -38,13 +39,14 @@ class CustomerController extends BaseController
 
         $formData = $request->getParsedBody();
         $customer = $this->createCustomerFromFormData($formData);
-        $authenticationAttempt = $this->customerValidator->validateLogin($customer);
 
-        if ($authenticationAttempt->getWasSuccesful()) {
+        try {
+            $this->customerValidator->validateLogin($customer);
+
             $this->view->render($response, 'order.twig');
-        } else {
+        } catch (AuthenticationException $e) {
             $this->view->render($response, 'index.twig',
-                ['user_error' => $authenticationAttempt->getErrorMessage()]);
+                ['user_error' => $e->getMessage()]);
         }
 
         return $response;
@@ -64,20 +66,20 @@ class CustomerController extends BaseController
 
         $formData = $request->getParsedBody();
         $customer = $this->createCustomerFromFormData($formData);
-        $authenticationAttempt = $this->customerValidator->validateRegistry($customer);
+        try {
+            $this->customerValidator->validateRegistry($customer);
 
-        if ($authenticationAttempt->getWasSuccesful()) {
             $this->entityManager->persist($customer);
             $this->entityManager->flush();
 
             $response->getBody()->write("Account " . $customer->getName() . " created.");
             $this->view->render($response, 'index.twig');
-        } else {
-            $errorField = $authenticationAttempt->hasPasswordError()
+        } catch (AuthenticationException $e) {
+            $errorField = $e->hasPasswordError()
                 ? "password_error" : "username_error";
 
             $this->view->render($response, 'register.twig',
-                [$errorField => $authenticationAttempt->getErrorMessage()]);
+                [$errorField => $e->getMessage()]);
         }
         return $response;
     }
