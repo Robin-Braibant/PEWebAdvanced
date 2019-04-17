@@ -16,3 +16,5 @@ $app->post('/register', 'App\Controller\CustomerController:register')
 $app->get('/order', 'App\Controller\OrderController:dispatch')
     ->setname('orderpage');
 
+$app->post('/order', 'App\Controller\OrderController:addToOrder')
+    ->setname('addToOrder');

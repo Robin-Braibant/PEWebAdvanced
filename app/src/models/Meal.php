@@ -1,10 +1,20 @@
-<?php namespace App\Model;
+<?php
+/**
+ * Created by PhpStorm.
+ * User: mcoppieters
+ * Date: 17/04/19
+ * Time: 14:29
+ */
 
+namespace App\Model;
+
+use Doctrine\ORM\Mapping\ManyToOne as ManyToOne;
+use Doctrine\ORM\Mapping\JoinColumn as JoinColumn;
 use Doctrine\ORM\Mapping\Entity as Entity;
-use Doctrine\ORM\Mapping\Column as Column;
 use Doctrine\ORM\Mapping\Table as Table;
-use Doctrine\ORM\Mapping\GeneratedValue as GeneratedValue;
+use Doctrine\ORM\Mapping\Column as Column;
 use Doctrine\ORM\Mapping\Id as Id;
+use Doctrine\ORM\Mapping\GeneratedValue as GeneratedValue;
 
 /**
  * @Entity @Table(name="meals")
@@ -12,60 +22,70 @@ use Doctrine\ORM\Mapping\Id as Id;
 class Meal
 {
     /** @Id @Column(type="integer") @GeneratedValue **/
-    protected $id;
-    /** @Column(type="string") **/
-    protected $name;
-    /** @Column(type="string") **/
-    protected $image;
-    /** @Column(type="float") **/
-    protected $price;
-
+    private $id;
 
     /**
-     * @return String
+     * @ManyToOne(targetEntity="Dish")
+     * @JoinColumn(name="dish_id", referencedColumnName="id")
      */
-    public function getName()
-    {
-        return $this->name;
-    }
-
+    private $dish;
     /**
-     * @return String
+     * @ManyToOne(targetEntity="Assortment")
+     * @JoinColumn(name="assortment_id", referencedColumnName="id")
      */
-    public function getImage()
-    {
-        return $this->image;
-    }
+    private $assortment;
+
+    private $price;
 
     /**
-     * @return double
+     * @return mixed
      */
     public function getPrice()
     {
-        return $this->price;
+        $sum = 0;
+
+        if ($this->dish) {
+            $sum += $this->dish->getPrice();
+        }
+        if ($this->assortment) {
+            $sum += $this->assortment->getPrice();
+        }
+
+        return $sum;
     }
 
     /**
-     * @param String $name
+     * @return mixed
      */
-    public function setName($name): void
+    public function getId()
     {
-        $this->name = $name;
+        return $this->id;
     }
 
     /**
-     * @param String $image
+     * @return mixed
      */
-    public function setImage($image): void
+    public function getDish()
     {
-        $this->image = $image;
+        return $this->dish;
+    }/**
+     * @param mixed $dish
+     */
+    public function setDish($dish): void
+    {
+        $this->dish = $dish;
+    }/**
+     * @return mixed
+     */
+    public function getAssortment()
+    {
+        return $this->assortment;
+    }/**
+     * @param mixed $assortment
+     */
+    public function setAssortment($assortment): void
+    {
+        $this->assortment = $assortment;
     }
 
-    /**
-     * @param double $price
-     */
-    public function setPrice($price): void
-    {
-        $this->price = $price;
-    }
 }

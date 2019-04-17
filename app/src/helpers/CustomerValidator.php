@@ -1,6 +1,6 @@
 <?php namespace App\Helper;
 
-use App\Model\AuthenticationException;
+use App\Exception\AuthenticationException;
 use App\Model\Customer;
 
 class CustomerValidator
@@ -64,6 +64,9 @@ class CustomerValidator
         $this->validatePossibleLoginErrors($customer);
     }
 
+    /**
+     * @throws AuthenticationException
+     */
     private function validatePossibleLoginErrors(Customer $customer) {
         if (!$this->customerExists($customer)) {
             throw new AuthenticationException("Username or password was wrong");

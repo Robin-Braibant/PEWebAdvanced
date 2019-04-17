@@ -23,6 +23,14 @@ class Customer
     private $confirmPassword;
 
     /**
+     * @return mixed
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
      * @return String
      */
     public function getName()
@@ -68,14 +76,6 @@ class Customer
     public function setConfirmPassword($confirmPassword): void
     {
         $this->confirmPassword = $confirmPassword;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getId()
-    {
-        return $this->id;
     }
 
     /**

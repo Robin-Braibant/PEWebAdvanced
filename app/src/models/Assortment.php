@@ -27,6 +27,14 @@ class Assortment
     }
 
     /**
+     * @return mixed
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
      * @param String $name
      */
     public function setName($name): void

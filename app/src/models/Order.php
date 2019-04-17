@@ -1,10 +1,12 @@
 <?php namespace App\Model;
 
 use Doctrine\ORM\Mapping\Entity as Entity;
-use Doctrine\ORM\Mapping\Column as Column;
 use Doctrine\ORM\Mapping\Table as Table;
+use Doctrine\ORM\Mapping\Column as Column;
 use Doctrine\ORM\Mapping\GeneratedValue as GeneratedValue;
 use Doctrine\ORM\Mapping\Id as Id;
+use Doctrine\ORM\Mapping\ManyToOne as ManyToOne;
+use Doctrine\ORM\Mapping\JoinColumn as JoinColumn;
 
 /**
  * @Entity @Table(name="orders")
@@ -13,11 +15,22 @@ class Order
 {
     /** @Id @Column(type="integer") @GeneratedValue **/
     private $id;
-    /** @Column(type="array") **/
-    private $customers;
-    /** @Column(type="array") **/
+
+    private $customer;
+
+    /** @ManyToOne(targetEntity="Meal")
+     *  @JoinColumn(name="meal_id", referencedColumnName="id")
+     */
     private $meals;
 
+
+    /**
+     * @return mixed
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
 
     /**
      * @return mixed
@@ -51,5 +64,9 @@ class Order
         $this->meals = $meals;
     }
 
-
+    public function addMeal(Meal $meal): void
+    {
+        if (!$this->meals) $this->setMeals([]);
+        array_push($this->meals, $meal);
+    }
 }

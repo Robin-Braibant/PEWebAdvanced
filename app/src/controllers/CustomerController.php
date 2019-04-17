@@ -7,8 +7,7 @@
  * Time: 10:50
  */
 
-use App\Helper\CustomerValidator;
-use App\Model\AuthenticationException;
+use App\Exception\AuthenticationException;
 use App\Model\Customer;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
@@ -27,8 +26,6 @@ class CustomerController extends BaseController
     {
         $this->logger->info("Home page was loaded");
 
-        $this->flash->addMessage('info', 'Sample flash message');
-
         $this->view->render($response, 'index.twig');
         return $response;
     }
@@ -43,10 +40,10 @@ class CustomerController extends BaseController
         try {
             $this->customerValidator->validateLogin($customer);
 
-            $this->view->render($response, 'order.twig');
+            $response = $response->withStatus(302)->withHeader('Location', '/order');
         } catch (AuthenticationException $e) {
             $this->view->render($response, 'index.twig',
-                ['user_error' => $e->getMessage()]);
+                ['login_error' => $e->getMessage()]);
         }
 
         return $response;

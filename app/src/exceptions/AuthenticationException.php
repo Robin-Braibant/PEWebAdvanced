@@ -1,13 +1,10 @@
-<?php namespace App\Controller;
+<?php namespace App\Exception;
 /**
  * Created by PhpStorm.
  * User: mcoppieters
  * Date: 03/04/19
  * Time: 17:22
  */
-
-namespace App\Model;
-
 
 use Exception;
 
