@@ -69,4 +69,9 @@ class Order
         if (!$this->meals) $this->setMeals([]);
         array_push($this->meals, $meal);
     }
+
+    public function deleteMeal($id): void
+    {
+        unset($this->meals[$id]);
+    }
 }

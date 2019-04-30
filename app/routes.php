@@ -18,3 +18,6 @@ $app->get('/order', 'App\Controller\OrderController:dispatch')
 
 $app->post('/order', 'App\Controller\OrderController:addToOrder')
     ->setname('addToOrder');
+
+$app->post('/order/delete/{id}', 'App\Controller\OrderController:deleteFromOrder')
+    ->setName('deleteFromOrder');

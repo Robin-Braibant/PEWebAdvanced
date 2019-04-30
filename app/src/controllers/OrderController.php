@@ -52,6 +52,16 @@ class OrderController extends BaseController
         ]);
     }
 
+    public function deleteFromOrder(Request $request, Response $response, $args) {
+        $this->logger->info("Order page dispatched");
+
+        $id = $args['id'];
+
+        $this->order->deleteMeal($id);
+
+        return $response->withRedirect('/order');
+    }
+
     private function setOrderMealFromFormData($formData) {
         $meal = new Meal();
 
