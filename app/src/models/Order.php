@@ -5,7 +5,7 @@ use Doctrine\ORM\Mapping\Table as Table;
 use Doctrine\ORM\Mapping\Column as Column;
 use Doctrine\ORM\Mapping\GeneratedValue as GeneratedValue;
 use Doctrine\ORM\Mapping\Id as Id;
-use Doctrine\ORM\Mapping\ManyToOne as ManyToOne;
+use Doctrine\ORM\Mapping\OneToMany as OneToMany;
 use Doctrine\ORM\Mapping\JoinColumn as JoinColumn;
 
 /**
@@ -13,16 +13,24 @@ use Doctrine\ORM\Mapping\JoinColumn as JoinColumn;
  **/
 class Order
 {
+
+
     /** @Id @Column(type="integer") @GeneratedValue **/
     private $id;
 
     private $customer;
 
-    /** @ManyToOne(targetEntity="Meal")
-     *  @JoinColumn(name="meal_id", referencedColumnName="id")
+    /** @OneToMany(targetEntity="Meal", mappedBy="order")
      */
     private $meals;
 
+    /**
+     * Order constructor.
+     */
+    public function __construct()
+    {
+        $this->meals = Array();
+    }
 
     /**
      * @return mixed
@@ -35,9 +43,9 @@ class Order
     /**
      * @return mixed
      */
-    public function getCustomers()
+    public function getCustomer()
     {
-        return $this->customers;
+        return $this->customer;
     }
 
     /**
@@ -51,23 +59,14 @@ class Order
     /**
      * @param mixed $customers
      */
-    public function setCustomers($customers): void
+    public function setCustomer($customer): void
     {
-        $this->customers = $customers;
-    }
-
-    /**
-     * @param mixed $meals
-     */
-    public function setMeals($meals): void
-    {
-        $this->meals = $meals;
+        $this->customer = $customer;
     }
 
     public function addMeal(Meal $meal): void
     {
-        if (!$this->meals) $this->setMeals([]);
-        array_push($this->meals, $meal);
+        array_push($test, $meal);
     }
 
     public function deleteMeal($id): void
