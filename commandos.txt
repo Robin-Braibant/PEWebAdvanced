@@ -15,5 +15,11 @@ composer -o dump-autoload
 # Folders kopieren naar vagrant
 run deploy.sh bestand
 
+# Tabellen genereren
+vendor/bin/doctrine orm:schema-tool:create
+
+# SQL uitvoeren
+sudo mysql -u root -p -s < sql/insert.sql
+
 # Uit te voeren bij migration
 vendor/bin/doctrine orm:schema-tool:update --force --dump-sql
