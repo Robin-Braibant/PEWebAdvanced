@@ -63,7 +63,9 @@
                                         </div>
                                     </div>
                                 </div>
+                            </li>
                                 {% for meal in order.meals %}
+                                    <li class="list-item">
                                     <div class="order-item d-flex flex-row align-items-center border rounded">
                                         <figure class="my-auto">
                                             <img class="order-photo rounded" src="images/{{ meal.dish.image }}" alt="biefstuk">
@@ -80,8 +82,8 @@
                                             </div>
                                         </div>
                                     </div>
+                                    </li>
                                 {% endfor %}
-                            </li>
                         </ul>
                     </div>
                 </div>
