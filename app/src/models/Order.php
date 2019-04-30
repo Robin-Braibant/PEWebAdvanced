@@ -21,8 +21,7 @@ class Order
     /** @ManyToOne(targetEntity="Meal")
      *  @JoinColumn(name="meal_id", referencedColumnName="id")
      */
-    private $meals;
-
+    private $meals = [];
 
     /**
      * @return mixed
@@ -35,9 +34,9 @@ class Order
     /**
      * @return mixed
      */
-    public function getCustomers()
+    public function getCustomer()
     {
-        return $this->customers;
+        return $this->customer;
     }
 
     /**
@@ -51,22 +50,13 @@ class Order
     /**
      * @param mixed $customers
      */
-    public function setCustomers($customers): void
+    public function setCustomer($customer): void
     {
-        $this->customers = $customers;
-    }
-
-    /**
-     * @param mixed $meals
-     */
-    public function setMeals($meals): void
-    {
-        $this->meals = $meals;
+        $this->customer = $customer;
     }
 
     public function addMeal(Meal $meal): void
     {
-        if (!$this->meals) $this->setMeals([]);
         array_push($this->meals, $meal);
     }
 }
