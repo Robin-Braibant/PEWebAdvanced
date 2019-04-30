@@ -31,9 +31,9 @@ class OrderController extends BaseController
         } else {
             $order = new Order();
         }
-
         $this->entityManager->persist($order);
         $this->entityManager->flush();
+
 
         return $this->view->render($response, 'order.twig', [
             'dishes' => $dishes,
@@ -45,9 +45,9 @@ class OrderController extends BaseController
     public function addToOrder(Request $request, Response $response, $args) {
         $formData = $request->getParsedBody();
         $orderId = $formData['order-id'];
-
         $order = $this->entityManager->getRepository('App\Model\Order')->find($orderId);
-        $this->setOrderMealFromFormData($formData, $order);
+
+        $this->setOrderMealFromFormData($formData);
 
         $dishes = $this->entityManager->getRepository('App\Model\Dish')->findAll();
         $assortments = $this->entityManager->getRepository('App\Model\Assortment')->findAll();
@@ -59,8 +59,19 @@ class OrderController extends BaseController
         ]);
     }
 
-    private function setOrderMealFromFormData($formData, $order) {
+    public function deleteFromOrder(Request $request, Response $response, $args) {
+        $this->logger->info("Order page dispatched");
+
+        $id = $args['id'];
+
+        $this->order->deleteMeal($id);
+
+        return $response->withRedirect('/order');
+    }
+
+    private function setOrderMealFromFormData($formData) {
         $meal = new Meal();
+        $order = $this->entityManager->getRepository('App\Model\order')->find( $formData['order-id']);
 
         if ($this->formDataPropertyWasPassed($formData, 'dish')) {
             $dishId = $formData['dish'];
@@ -73,8 +84,7 @@ class OrderController extends BaseController
             $assortment = $this->entityManager->getRepository('App\Model\Assortment')->find($assortmentId);
             $meal->setAssortment($assortment);
         }
-        $this->logger->info(json_encode($order->getMeals()));
-        $this->logger->info(get_class($order->getMeals()));
+
         $order->addMeal($meal);
     }
 

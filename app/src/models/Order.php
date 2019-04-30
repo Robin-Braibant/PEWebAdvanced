@@ -59,4 +59,9 @@ class Order
     {
         $this->meals->add($meal);
     }
+
+    public function deleteMeal($id): void
+    {
+        unset($this->meals[$id]);
+    }
 }
