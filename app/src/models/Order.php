@@ -5,7 +5,7 @@ use Doctrine\ORM\Mapping\Table as Table;
 use Doctrine\ORM\Mapping\Column as Column;
 use Doctrine\ORM\Mapping\GeneratedValue as GeneratedValue;
 use Doctrine\ORM\Mapping\Id as Id;
-use Doctrine\ORM\Mapping\ManyToOne as ManyToOne;
+use Doctrine\ORM\Mapping\OneToMany as OneToMany;
 use Doctrine\ORM\Mapping\JoinColumn as JoinColumn;
 
 /**
@@ -13,15 +13,24 @@ use Doctrine\ORM\Mapping\JoinColumn as JoinColumn;
  **/
 class Order
 {
+
+
     /** @Id @Column(type="integer") @GeneratedValue **/
     private $id;
 
     private $customer;
 
-    /** @ManyToOne(targetEntity="Meal")
-     *  @JoinColumn(name="meal_id", referencedColumnName="id")
+    /** @OneToMany(targetEntity="Meal", mappedBy="order")
      */
-    private $meals = [];
+    private $meals;
+
+    /**
+     * Order constructor.
+     */
+    public function __construct()
+    {
+        $this->meals = Array();
+    }
 
     /**
      * @return mixed
@@ -57,6 +66,6 @@ class Order
 
     public function addMeal(Meal $meal): void
     {
-        array_push($this->meals, $meal);
+        array_push($test, $meal);
     }
 }

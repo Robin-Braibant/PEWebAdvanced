@@ -24,16 +24,12 @@ class CustomerController extends BaseController
 
     public function dispatchLoginPage(Request $request, Response $response, $args)
     {
-        $this->logger->info("Home page was loaded");
-
         $this->view->render($response, 'index.twig');
         return $response;
     }
 
     public function login(Request $request, Response $response, $args)
     {
-        $this->logger->info("Home page action dispatched");
-
         $formData = $request->getParsedBody();
         $customer = $this->createCustomerFromFormData($formData);
 
@@ -51,16 +47,12 @@ class CustomerController extends BaseController
 
     public function dispatchRegisterPage(Request $request, Response $response, $args)
     {
-        $this->logger->info("Home page action dispatched");
-
         $this->view->render($response, 'register.twig');
         return $response;
     }
 
     public function register(Request $request, Response $response, $args)
     {
-        $this->logger->info("Home page action dispatched");
-
         $formData = $request->getParsedBody();
         $customer = $this->createCustomerFromFormData($formData);
         try {

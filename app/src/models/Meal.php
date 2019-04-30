@@ -8,7 +8,7 @@
 
 namespace App\Model;
 
-use Doctrine\ORM\Mapping\ManyToOne as ManyToOne;
+use Doctrine\ORM\Mapping\OneToOne as OneToOne;
 use Doctrine\ORM\Mapping\JoinColumn as JoinColumn;
 use Doctrine\ORM\Mapping\Entity as Entity;
 use Doctrine\ORM\Mapping\Table as Table;
@@ -25,13 +25,11 @@ class Meal
     private $id;
 
     /**
-     * @ManyToOne(targetEntity="Dish")
-     * @JoinColumn(name="dish_id", referencedColumnName="id")
+     * @OneToOne(targetEntity="Dish")
      */
     private $dish;
     /**
-     * @ManyToOne(targetEntity="Assortment")
-     * @JoinColumn(name="assortment_id", referencedColumnName="id")
+     * @OneToOne(targetEntity="Assortment")
      */
     private $assortment;
 

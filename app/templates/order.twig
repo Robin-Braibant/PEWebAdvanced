@@ -20,6 +20,7 @@
                 <form class="row d-flex flex-row justify-contents-space-between" method="post">
                     <div class="col-md-5">
                         <div class="dropdown">
+                            <input type="hidden" id="order-id" name="order-id" value="{{ order.id }}" >
                             <select name="dish" id="dish-dropdown" class="btn btn-secondary dropdown-toggle">
                                 <option value="" disabled selected>Schotel</option>
                                 {% for dish in dishes %}
