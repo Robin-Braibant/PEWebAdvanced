@@ -62,7 +62,7 @@ class CustomerController extends BaseController
             $this->entityManager->flush();
 
             $response->getBody()->write("Account " . $customer->getName() . " created.");
-            $this->view->render($response, 'index.twig');
+            $response = $response->withRedirect('/');
         } catch (AuthenticationException $e) {
             $errorField = $e->hasPasswordError()
                 ? "password_error" : "username_error";
