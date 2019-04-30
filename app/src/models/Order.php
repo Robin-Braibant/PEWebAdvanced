@@ -13,24 +13,15 @@ use Doctrine\ORM\Mapping\JoinColumn as JoinColumn;
  **/
 class Order
 {
-
-
     /** @Id @Column(type="integer") @GeneratedValue **/
     private $id;
 
     private $customer;
 
-    /** @OneToMany(targetEntity="Meal", mappedBy="order")
+    /**
+     * @OneToMany(targetEntity="Meal", mappedBy="order")
      */
     private $meals;
-
-    /**
-     * Order constructor.
-     */
-    public function __construct()
-    {
-        $this->meals = Array();
-    }
 
     /**
      * @return mixed
@@ -66,6 +57,6 @@ class Order
 
     public function addMeal(Meal $meal): void
     {
-        array_push($test, $meal);
+        $this->meals->add($meal);
     }
 }

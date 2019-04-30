@@ -15,6 +15,7 @@ use Doctrine\ORM\Mapping\Table as Table;
 use Doctrine\ORM\Mapping\Column as Column;
 use Doctrine\ORM\Mapping\Id as Id;
 use Doctrine\ORM\Mapping\GeneratedValue as GeneratedValue;
+use Doctrine\ORM\Mapping\ManyToOne as ManyToOne;
 
 /**
  * @Entity @Table(name="meals")
@@ -32,6 +33,10 @@ class Meal
      * @OneToOne(targetEntity="Assortment")
      */
     private $assortment;
+    /**
+     * @ManyToOne(targetEntity="Order", inversedBy="meals")
+     */
+    private $order;
 
     private $price;
 

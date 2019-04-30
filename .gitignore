@@ -15,6 +15,8 @@
 Vagrantfile
 bootstrap.sh
 .vagrant
+deploy.sh
+vendor/
 
 # Generated files
 .idea/**/contentModel.xml
