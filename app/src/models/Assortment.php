@@ -1,5 +1,6 @@
 <?php namespace App\Model;
 
+use Doctrine\ORM\Mapping\OneToMany as OneToMany;
 use Doctrine\ORM\Mapping\Entity as Entity;
 use Doctrine\ORM\Mapping\Column as Column;
 use Doctrine\ORM\Mapping\Table as Table;
@@ -57,4 +58,11 @@ class Assortment
     {
         return $this->price;
     }
+
+    public function __toString()
+    {
+        return "{ name: " . $this->getName() . " }";
+    }
+
+
 }

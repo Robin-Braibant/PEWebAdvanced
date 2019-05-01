@@ -17,10 +17,9 @@
                 Mijn Bestelling
             </h3>
             <div id="order-row-container">
-                <form class="row d-flex flex-row justify-contents-space-between" method="post">
+                <form class="row d-flex flex-row justify-contents-space-between" method="get">
                     <div class="col-md-5">
                         <div class="dropdown">
-                            <input type="hidden" id="order-id" name="order-id" value="{{ order.id }}" >
                             <select name="dish" id="dish-dropdown" class="btn btn-secondary dropdown-toggle">
                                 <option value="" disabled selected>Schotel</option>
                                 {% for dish in dishes %}
@@ -50,21 +49,6 @@
                 <div class="row">
                     <div class="col-md-12">
                         <ul class="list-unstyled">
-                            <li class="list-item">
-                                <div class="order-item d-flex flex-row align-items-center border rounded">
-                                    <figure class="my-auto">
-                                        <img class="order-photo rounded" src="images/biefstuk.jpg" alt="biefstuk">
-                                    </figure>
-                                    <div class="col-md-8">
-                                        <div class="d-flex flex-column">
-                                            <h3>
-                                                <span class="meal-name">Biefstuk</span> met <span class="assortment-name">Frieten</span>
-                                            </h3>
-                                            <p>Prijs: <span class="meal-price">20,00 euro</span></p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </li>
                                 {% for meal in order.meals %}
                                 <li class="list-item">
                                     <div class="order-item d-flex flex-row align-items-center border rounded">
@@ -91,6 +75,11 @@
                                 </li>
                                 {% endfor %}
                         </ul>
+                        {% if order.meals|length > 0 %}
+                            <form action="order/confirm" method="post">
+                                <input type="submit" class="btn btn-primary" value="Bestellen">
+                            </form>
+                        {% endif %}
                     </div>
                 </div>
             </div>

@@ -85,4 +85,9 @@ class Customer
     {
         $this->id = $id;
     }
+
+    public function __toString()
+    {
+        return "{ name " . $this->getName() . " }";
+    }
 }

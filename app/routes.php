@@ -16,7 +16,10 @@ $app->post('/register', 'App\Controller\CustomerController:register')
 $app->get('/order', 'App\Controller\OrderController:dispatch')
     ->setname('orderpage');
 
-$app->post('/order', 'App\Controller\OrderController:addToOrder')
+$app->post('/order/add/{id}', 'App\Controller\OrderController:addToOrder')
+    ->setname('addToOrder');
+
+$app->post('/order/confirm', 'App\Controller\OrderController:confirmOrder')
     ->setname('addToOrder');
 
 $app->post('/order/delete/{id}', 'App\Controller\OrderController:deleteFromOrder')

@@ -6,6 +6,8 @@
  * Time: 10:50
  */
 
+use App\Model\Assortment;
+use App\Model\Customer;
 use App\Model\Meal;
 use App\Model\Order;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -21,74 +23,79 @@ class OrderController extends BaseController
 
     public function dispatch(Request $request, Response $response, $args)
     {
-        $dishes = $this->entityManager->getRepository('App\Model\Dish')->findAll();
-        $assortments = $this->entityManager->getRepository('App\Model\Assortment')->findAll();
-
-        $formData = $request->getParsedBody();
-        $orderId = $formData['order-id'];
-        if ($orderId) {
-            $order = $this->entityManager->getRepository('App\Model\Order')->find($orderId);
+        if (!isset($_SESSION)) {
+            session_start();
+        }
+        if (isset($_SESSION['order'])) {
+            $order = $_SESSION['order'];
+            if ($this->dishWasAdded($request)) {
+                $this->addOrderMeal($order, $request);
+                $this->entityManager->persist($order);
+                $this->entityManager->flush($order);
+            }
         } else {
             $order = new Order();
+            $this->entityManager->persist($order);
+            $this->entityManager->flush($order);
+            $_SESSION['order'] = $order;
         }
-        $this->entityManager->persist($order);
-        $this->entityManager->flush();
 
+        $assortmentsBuilder = $this->entityManager->getRepository('App\Model\Assortment')->createQueryBuilder('p');
+        $dishBuilder = $this->entityManager->getRepository('App\Model\Dish')->createQueryBuilder('p');
 
         return $this->view->render($response, 'order.twig', [
-            'dishes' => $dishes,
-            'assortments' => $assortments,
+            'dishes' => $this->getDistinct($dishBuilder),
+            'assortments' => $this->getDistinct($assortmentsBuilder),
             'order' => $order,
         ]);
     }
 
-    public function addToOrder(Request $request, Response $response, $args) {
-        $formData = $request->getParsedBody();
-        $orderId = $formData['order-id'];
-        $order = $this->entityManager->getRepository('App\Model\Order')->find($orderId);
+    public function confirmOrder(Request $request, Response $response, $args) {
+        session_destroy();
+        return $response->withRedirect('/order');
+    }
 
-        $this->setOrderMealFromFormData($formData);
-
-        $dishes = $this->entityManager->getRepository('App\Model\Dish')->findAll();
-        $assortments = $this->entityManager->getRepository('App\Model\Assortment')->findAll();
-
-        return $this->view->render($response, 'order.twig', [
-            'dishes' => $dishes,
-            'assortments' => $assortments,
-            'order' => $order,
-        ]);
+    private function getDistinct($queryBuilder) {
+        return $queryBuilder
+                    ->SELECT('p.id,p.name')
+                    ->getQuery()
+                    ->getResult();
     }
 
     public function deleteFromOrder(Request $request, Response $response, $args) {
-        $this->logger->info("Order page dispatched");
-
         $id = $args['id'];
 
-        $this->order->deleteMeal($id);
+        $order = $_SESSION['order'];
+        $this->logger->info("Deleting meal with id " . $id);
+        $order->deleteMeal($id);
+        $this->entityManager->persist($order);
+        $this->entityManager->flush($order);
+
 
         return $response->withRedirect('/order');
     }
 
-    private function setOrderMealFromFormData($formData) {
+    private function addOrderMeal($order, $request) {
         $meal = new Meal();
-        $order = $this->entityManager->getRepository('App\Model\order')->find( $formData['order-id']);
 
-        if ($this->formDataPropertyWasPassed($formData, 'dish')) {
-            $dishId = $formData['dish'];
-            $dish = $this->entityManager->getRepository('App\Model\Dish')->find($dishId);
-            $meal->setDish($dish);
-        }
+        $dishId = $request->getQueryParam('dish');
+        $dish = $this->entityManager->find('App\Model\Dish', $dishId);
+        $meal->setDish($dish);
 
-        if ($this->formDataPropertyWasPassed($formData, 'assortment')) {
-            $assortmentId = $formData['assortment'];
-            $assortment = $this->entityManager->getRepository('App\Model\Assortment')->find($assortmentId);
+        if ($this->queryParameterIsPresent($request, 'assortment')) {
+            $assortmentId = $request->getQueryParam('assortment');
+            $assortment = $this->entityManager->find('App\Model\Assortment', $assortmentId);
             $meal->setAssortment($assortment);
         }
 
         $order->addMeal($meal);
     }
 
-    private function formDataPropertyWasPassed($formData, $property) {
-        return isset($formData[$property]);
+    private function dishWasAdded($request) {
+        return $request->getQueryParam('dish');
+    }
+
+    private function queryParameterIsPresent($request, $parameter) {
+        return !!$request->getQueryParam($parameter);
     }
 }

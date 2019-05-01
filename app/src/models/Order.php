@@ -7,6 +7,7 @@ use Doctrine\ORM\Mapping\GeneratedValue as GeneratedValue;
 use Doctrine\ORM\Mapping\Id as Id;
 use Doctrine\ORM\Mapping\OneToMany as OneToMany;
 use Doctrine\ORM\Mapping\JoinColumn as JoinColumn;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @Entity @Table(name="orders")
@@ -19,9 +20,18 @@ class Order
     private $customer;
 
     /**
-     * @OneToMany(targetEntity="Meal", mappedBy="order")
+     * @OneToMany(targetEntity="Meal", mappedBy="order", cascade={"persist"})
      */
     private $meals;
+
+    /**
+     * Order constructor.
+     */
+    public function __construct()
+    {
+        $this->meals = new ArrayCollection();
+    }
+
 
     /**
      * @return mixed
@@ -63,5 +73,11 @@ class Order
     public function deleteMeal($id): void
     {
         unset($this->meals[$id]);
+    }
+
+    public function __toString()
+    {
+
+        return "{ meals: [" . implode($this->getMeals()->toArray()) . " ], customer: " . $this->getCustomer() . " }";
     }
 }
