@@ -100,10 +100,21 @@ class CustomerController extends BaseController
     public function recoverPassword(Request $request, Response $response, $args)
     {
         $formData = $request->getParsedBody();
-        $customer = $this->createCustomerFromFormData($formData);
+        $customerData = $this->createCustomerFromFormData($formData);
 
         try {
-            $this->customerValidator->validatePasswordRecovery($customer);
+            $this->customerValidator->validatePasswordRecovery($customerData);
+
+            $customer = $this->entityManager
+                ->getRepository('App\Model\Customer')
+                ->findBy([ 'name' => $customerData->getName() ])[0];
+
+            $customer->setPassword($customerData->getNewPassword());
+
+            $this->entityManager->merge($customer); // update
+            $this->entityManager->flush();
+
+            $this->logger->info('new password: ' . $customer->getPassword());
 
             return $response->withRedirect('/');
         } catch (AuthenticationException $e) {

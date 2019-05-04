@@ -13,15 +13,16 @@ class Customer
 {
     /** @Id @Column(type="integer") @GeneratedValue **/
     protected $id;
+
     /**
-     * @Column(type="string")
+     * @Column(type="string", unique=true)
      **/
     protected $name;
-    /** @Column(type="string", unique=true) **/
+
+    /** @Column(type="string") **/
     protected $password;
 
     private $newPassword;
-
     private $confirmPassword;
 
     /**
