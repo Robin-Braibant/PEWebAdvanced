@@ -70,9 +70,14 @@ class Order
         $this->meals->add($meal);
     }
 
-    public function deleteMeal($id): void
+    public function deleteMeal(int $id): void
     {
-        unset($this->meals[$id]);
+        for($i = 0; $i < $this->meals->count(); $i++) {
+            if ($this->meals[$i]->getId() == $id) {
+                unset($this->meals[$i]);
+                break;
+            }
+        }
     }
 
     public function __toString()

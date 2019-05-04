@@ -22,5 +22,5 @@ $app->post('/order/add/{id}', 'App\Controller\OrderController:addToOrder')
 $app->post('/order/confirm', 'App\Controller\OrderController:confirmOrder')
     ->setname('addToOrder');
 
-$app->post('/order/delete/{id}', 'App\Controller\OrderController:deleteFromOrder')
+$app->post('/order/delete', 'App\Controller\OrderController:deleteFromOrder')
     ->setName('deleteFromOrder');

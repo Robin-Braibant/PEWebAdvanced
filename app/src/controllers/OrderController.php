@@ -30,8 +30,6 @@ class OrderController extends BaseController
             $order = $_SESSION['order'];
             if ($this->dishWasAdded($request)) {
                 $this->addOrderMeal($order, $request);
-                $this->entityManager->persist($order);
-                $this->entityManager->flush($order);
             }
         } else {
             $order = new Order();
@@ -63,23 +61,23 @@ class OrderController extends BaseController
     }
 
     public function deleteFromOrder(Request $request, Response $response, $args) {
-        $id = $args['id'];
+        $formData = $request->getParsedBody();
+        $mealId = $formData['meal-id'];
 
         $order = $_SESSION['order'];
-        $this->logger->info("Deleting meal with id " . $id);
-        $order->deleteMeal($id);
-        $this->entityManager->persist($order);
-        $this->entityManager->flush($order);
-
+        $order->deleteMeal($mealId);
 
         return $response->withRedirect('/order');
     }
 
     private function addOrderMeal($order, $request) {
         $meal = new Meal();
+        $this->entityManager->persist($meal);
+        $this->entityManager->flush($meal);
 
         $dishId = $request->getQueryParam('dish');
         $dish = $this->entityManager->find('App\Model\Dish', $dishId);
+        $this->logger->info('dish id:' . $dish->getId());
         $meal->setDish($dish);
 
         if ($this->queryParameterIsPresent($request, 'assortment')) {
@@ -88,6 +86,7 @@ class OrderController extends BaseController
             $meal->setAssortment($assortment);
         }
 
+        $this->logger->info($meal);
         $order->addMeal($meal);
     }
 

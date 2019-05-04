@@ -26,11 +26,11 @@ class Meal
     private $id;
 
     /**
-     * @ManyToOne(targetEntity="Dish", cascade={"persist"})
+     * @ManyToOne(targetEntity="Dish", cascade={"merge"})
      */
     private $dish;
     /**
-     * @ManyToOne(targetEntity="Assortment", cascade={"persist"})
+     * @ManyToOne(targetEntity="Assortment", cascade={"merge"})
      */
     private $assortment;
     /**
@@ -93,6 +93,6 @@ class Meal
 
     public function __toString()
     {
-        return "{ dish: " . $this->getDish() . ", assortment: " . $this->getAssortment() . " }";
+        return "{ id: " . $this->getId() . ", dish: " . $this->getDish() . ", assortment: " . $this->getAssortment() . " }";
     }
 }

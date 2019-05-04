@@ -49,6 +49,9 @@
                 <div class="row">
                     <div class="col-md-12">
                         <ul class="list-unstyled">
+                            {% if order.meals|length > 0 %}
+                                page 1
+                            {%  endif %}
                                 {% for meal in order.meals %}
                                 <li class="list-item">
                                     <div class="order-item d-flex flex-row align-items-center border rounded">
@@ -66,7 +69,8 @@
                                                 <p>Prijs: <span class="meal-price">{{ meal.price }} euro</span></p>
                                             </div>
                                             <div>
-                                                <form action="order/delete/{{ meal.id }}" method="post">
+                                                <form action="order/delete" method="post">
+                                                    <input type="hidden" name="meal-id" value=" {{ meal.id }}">
                                                     <input type="submit" class="btn btn-primary" value="Delete">
                                                 </form>
                                             </div>
