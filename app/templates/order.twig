@@ -5,6 +5,9 @@
     <title>Mijn Bestelling</title>
     <link rel="stylesheet" href="style.css" type="text/css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <script src="scripts.js" type="text/javascript"></script>
 </head>
 <body>
@@ -14,6 +17,30 @@
             <a href="/">
                 <img alt="Fu King - Chinese Restaurant" src="images/logo.png" />
             </a>
+            <!-- Modal -->
+            <div id="myModal" class="modal fade" role="dialog">
+                <div class="modal-dialog">
+
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Maaltijd verwijderen</h4>
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        </div>
+                        <div class="modal-body">
+                            <p>Weet u zeker dat u deze maaltijd wil verwijderen?</p>
+                        </div>
+                        <div class="modal-footer">
+                            <form action="order/delete" method="post">
+                                <input type="hidden" id="meal-id-input" name="meal-id">
+                                <input type="submit" class="btn btn-primary" value="Verwijderen">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Annuleer</button>
+                            </form>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
             <br>
             <h3 class="text-center">
                 Mijn Bestelling
@@ -84,10 +111,14 @@
                                                 <p>Prijs: <span class="meal-price">{{ meal.price }} euro</span></p>
                                             </div>
                                             <div>
-                                                <form action="order/delete" method="post">
-                                                    <input type="hidden" name="meal-id" value=" {{ meal.id }}">
-                                                    <input type="submit" class="btn btn-primary" value="Delete">
-                                                </form>
+                                                <button type="button"
+                                                        id="{{ meal.id }}"
+                                                        onclick="setMealToDelete(this)"
+                                                        class="btn btn-primary btn-lg"
+                                                        data-toggle="modal"
+                                                        data-target="#myModal">
+                                                    Verwijderen
+                                                </button>
                                             </div>
                                         </div>
                                     </div>

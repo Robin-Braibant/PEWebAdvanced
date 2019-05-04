@@ -60,7 +60,8 @@ class OrderController extends BaseController
 
     public function deleteFromOrder(Request $request, Response $response, $args) {
         $formData = $request->getParsedBody();
-        $mealId = $formData['meal-id'];
+        $mealId = (int)$formData['meal-id'];
+        $this->logger->info('deleting meal with id ' . $mealId);
 
         $order = $_SESSION['order'];
         $order->deleteMeal($mealId);
