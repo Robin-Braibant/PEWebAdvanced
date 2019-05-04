@@ -58,6 +58,22 @@ class Order
     }
 
     /**
+     * @param int $page
+     * @param int $pageSize
+     * @return mixed
+     */
+    public function getMealsOnPage(int $page, int $pageSize)
+    {
+        $startIndex = ($page - 1) * 5;
+        return array_slice($this->meals->toArray(), $startIndex, $pageSize);
+    }
+
+    public function mealCount() {
+        return $this->meals->count();
+    }
+
+
+    /**
      * @param mixed $customers
      */
     public function setCustomer($customer): void

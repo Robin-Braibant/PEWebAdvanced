@@ -16,6 +16,8 @@ use Slim\Container;
 
 class OrderController extends BaseController
 {
+    private static $PAGE_SIZE = 5;
+
     public function __construct(Container $container)
     {
         parent::__construct($container);
@@ -38,11 +40,16 @@ class OrderController extends BaseController
             $_SESSION['order'] = $order;
         }
 
+        $pageNumber = $request->getQueryParam('page') ?: 1;
+        $mealsOnPage = $order->getMealsOnPage($pageNumber, self::$PAGE_SIZE);
+        $pageCount = ceil($order->mealCount() / self::$PAGE_SIZE);
 
         return $this->view->render($response, 'order.twig', [
             'dishes' => $this->entityManager->getRepository('\App\Model\Dish')->findAll(),
             'assortments' => $this->entityManager->getRepository('\App\Model\Assortment')->findAll(),
-            'order' => $order,
+            'meals' => $mealsOnPage,
+            'pages' => $pageCount,
+            'currentPage' => $pageNumber
         ]);
     }
 

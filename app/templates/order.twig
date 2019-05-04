@@ -17,7 +17,7 @@
                 Mijn Bestelling
             </h3>
             <div id="order-row-container">
-                <form class="row d-flex flex-row justify-contents-space-between" method="get">
+                <form class="row d-flex flex-row justify-contents-space-between" action="order" method="get">
                     <div class="col-md-5">
                         <div class="dropdown">
                             <select name="dish" id="dish-dropdown" class="btn btn-secondary dropdown-toggle">
@@ -49,12 +49,23 @@
                 <div class="row">
                     <div class="col-md-12">
                         <ul class="list-unstyled">
-                            {% if order.meals|length > 0 %}
-                                {% for page in pages %}
-                                    page 1
-                                {% endfor %}
-                            {%  endif %}
-                                {% for meal in order.meals %}
+                                <div id="pagination">
+                                    {% if pages > 1 %}
+                                         pagina's:
+                                        {% for pageNumber in 1 .. pages %}
+                                            {% if currentPage == pageNumber %}
+                                                <span class="page">
+                                                    {{ pageNumber }}
+                                                </span>
+                                            {% else %}
+                                                <a class="page" href="order?page={{ pageNumber }}">
+                                                    {{ pageNumber }}
+                                                </a>
+                                            {% endif %}
+                                        {% endfor %}
+                                    {% endif %}
+                                </div>
+                                {% for meal in meals %}
                                 <li class="list-item">
                                     <div class="order-item d-flex flex-row align-items-center border rounded">
                                         <figure class="my-auto">
@@ -81,7 +92,7 @@
                                 </li>
                                 {% endfor %}
                         </ul>
-                        {% if order.meals|length > 0 %}
+                        {% if meals|length > 0 %}
                             <form action="order/confirm" method="post">
                                 <input type="submit" class="btn btn-primary" value="Bestellen">
                             </form>

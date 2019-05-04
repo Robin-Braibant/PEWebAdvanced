@@ -8,6 +8,11 @@ body {
     font-size: 18px;
 }
 
+.page:nth-child(n + 2)::before {
+    content: '|';
+    color: black;
+}
+
 h1 {
     color: #719e40;
     letter-spacing: -3px;
