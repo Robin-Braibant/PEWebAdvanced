@@ -96,4 +96,16 @@ class CustomerValidator
             ->findBy($properties);
         return sizeof($result) >= 1;
     }
+
+    /**
+     * @param $customer
+     * @return void
+     * @throws AuthenticationException
+     */
+    function validatePasswordRecovery($customer) {
+        $this->validatePossibleLoginErrors($customer);
+        if ($customer->getNewPassword() !== $customer->getConfirmPassword()) {
+            throw new AuthenticationException("New password wasn't identical to confirmation password");
+        }
+    }
 }

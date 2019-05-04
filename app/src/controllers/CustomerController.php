@@ -77,7 +77,14 @@ class CustomerController extends BaseController
         $customer = new Customer();
 
         $customer->setName($formData["username"]);
-        $customer->setPassword($formData["password"]);
+        if ($this->formDataIsFromRecoverPasswordPage($formData)) {
+            $customer->setPassword($formData["old-password"]);
+            $customer->setNewPassword($formData["new-password"]);
+            $customer->setConfirmPassword($formData["confirm-new-password"]);
+        } else {
+            $customer->setPassword($formData["password"]);
+        }
+
         if ($this->formDataIsFromRegisterPage($formData)) {
             $customer->setConfirmPassword($formData["confirm-password"]);
         }
@@ -85,7 +92,34 @@ class CustomerController extends BaseController
         return $customer;
     }
 
+    public function dispatchRecoverPasswordPage(Request $request, Response $response, $args)
+    {
+        return $this->view->render($response, 'recover-password.twig');
+    }
+
+    public function recoverPassword(Request $request, Response $response, $args)
+    {
+        $formData = $request->getParsedBody();
+        $customer = $this->createCustomerFromFormData($formData);
+
+        try {
+            $this->customerValidator->validatePasswordRecovery($customer);
+
+            return $response->withRedirect('/');
+        } catch (AuthenticationException $e) {
+            $errorField = ($e->hasDifferentPasswordError()) ?
+                 'different_password_error' : 'login_error';
+
+            $this->view->render($response, 'recover-password.twig',
+                [$errorField => $e->getMessage()]);
+        }
+    }
+
     private function formDataIsFromRegisterPage($formData) : bool {
         return isset($formData["confirm-password"]);
+    }
+
+    private function formDataIsFromRecoverPasswordPage($formData) : bool {
+        return isset($formData["old-password"]);
     }
 }

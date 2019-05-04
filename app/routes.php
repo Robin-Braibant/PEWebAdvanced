@@ -13,6 +13,12 @@ $app->get('/register', 'App\Controller\CustomerController:dispatchRegisterPage')
 $app->post('/register', 'App\Controller\CustomerController:register')
     ->setname('registeruser');
 
+$app->get('/recover-password', 'App\Controller\CustomerController:dispatchRecoverPasswordPage')
+    ->setname('recover-password');
+
+$app->post('/recover-password', 'App\Controller\CustomerController:recoverPassword')
+    ->setname('recover-password');
+
 $app->get('/order', 'App\Controller\OrderController:dispatch')
     ->setname('orderpage');
 

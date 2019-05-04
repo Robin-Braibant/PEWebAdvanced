@@ -20,4 +20,11 @@ class AuthenticationException extends Exception
     public function hasPasswordError(): bool {
         return strpos(strtolower($this->message), 'password') !== false;
     }
+
+    /**
+     * @return bool
+     */
+    public function hasDifferentPasswordError(): bool {
+        return strpos(strtolower($this->message), 'identical') !== false;
+    }
 }

@@ -20,6 +20,8 @@ class Customer
     /** @Column(type="string", unique=true) **/
     protected $password;
 
+    private $newPassword;
+
     private $confirmPassword;
 
     /**
@@ -85,6 +87,24 @@ class Customer
     {
         $this->id = $id;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getNewPassword()
+    {
+        return $this->newPassword;
+    }
+
+    /**
+     * @param mixed $newPassword
+     */
+    public function setNewPassword($newPassword): void
+    {
+        $this->newPassword = $newPassword;
+    }
+
+
 
     public function __toString()
     {
