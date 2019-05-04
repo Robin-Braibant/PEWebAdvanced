@@ -38,12 +38,10 @@ class OrderController extends BaseController
             $_SESSION['order'] = $order;
         }
 
-        $assortmentsBuilder = $this->entityManager->getRepository('App\Model\Assortment')->createQueryBuilder('p');
-        $dishBuilder = $this->entityManager->getRepository('App\Model\Dish')->createQueryBuilder('p');
 
         return $this->view->render($response, 'order.twig', [
-            'dishes' => $this->getDistinct($dishBuilder),
-            'assortments' => $this->getDistinct($assortmentsBuilder),
+            'dishes' => $this->entityManager->getRepository('\App\Model\Dish')->findAll(),
+            'assortments' => $this->entityManager->getRepository('\App\Model\Assortment')->findAll(),
             'order' => $order,
         ]);
     }
@@ -51,13 +49,6 @@ class OrderController extends BaseController
     public function confirmOrder(Request $request, Response $response, $args) {
         session_destroy();
         return $response->withRedirect('/order');
-    }
-
-    private function getDistinct($queryBuilder) {
-        return $queryBuilder
-                    ->SELECT('p.id,p.name')
-                    ->getQuery()
-                    ->getResult();
     }
 
     public function deleteFromOrder(Request $request, Response $response, $args) {

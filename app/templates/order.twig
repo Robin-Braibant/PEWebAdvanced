@@ -50,7 +50,9 @@
                     <div class="col-md-12">
                         <ul class="list-unstyled">
                             {% if order.meals|length > 0 %}
-                                page 1
+                                {% for page in pages %}
+                                    page 1
+                                {% endfor %}
                             {%  endif %}
                                 {% for meal in order.meals %}
                                 <li class="list-item">
