@@ -8,6 +8,7 @@ class BaseController
     protected $view;
     protected $logger;
     protected $flash;
+    protected $csrf;
     /**
      * @var EntityManager
      */
@@ -19,5 +20,6 @@ class BaseController
         $this->logger = $container->get('logger');
         $this->flash = $container->get('flash');
         $this->entityManager = $container->get('em');
+        $this->csrf = $container->get('csrf');
     }
 }

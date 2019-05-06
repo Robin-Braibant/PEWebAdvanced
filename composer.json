@@ -5,7 +5,8 @@
     "slim/flash": "^0.1.0",
     "monolog/monolog": "^1.17",
     "doctrine/orm": "^2.5.1",
-    "ext-json": "*"
+    "ext-json": "*",
+    "slim/csrf": "^0.8.3"
   },
   "autoload": {
     "psr-4": {

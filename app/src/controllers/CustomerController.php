@@ -36,6 +36,8 @@ class CustomerController extends BaseController
         try {
             $this->customerValidator->validateLogin($customer);
 
+            session_destroy();
+            session_start();
             $response = $response->withStatus(302)->withHeader('Location', '/order');
         } catch (AuthenticationException $e) {
             $this->view->render($response, 'index.twig',

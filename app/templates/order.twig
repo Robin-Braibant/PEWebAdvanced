@@ -47,6 +47,7 @@
             </h3>
             <div id="order-row-container">
                 <form class="row d-flex flex-row justify-contents-space-between" action="order" method="get">
+                    <input type="hidden" name="{{ tokenName }}" value="{{ tokenValue }}">
                     <div class="col-md-5">
                         <div class="dropdown">
                             <select name="dish" id="dish-dropdown" class="btn btn-secondary dropdown-toggle">
