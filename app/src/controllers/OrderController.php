@@ -25,32 +25,6 @@ class OrderController extends BaseController
 
     public function dispatch(Request $request, Response $response, $args)
     {
-        $nameKey = $this->csrf->getTokenNameKey();
-        $valueKey = $this->csrf->getTokenValueKey();
-        $name = $request->getAttribute($nameKey);
-        $value = $request->getAttribute($valueKey);
-
-        $this->logger->info("name: " . $name);
-        $this->logger->info("value: " .$value);
-        $this->logger->info("nameKey: " . $nameKey);
-        $this->logger->info("valueKey: " .$valueKey);
-
-        $tokenName = $this->csrf->getTokenNameKey();
-        $tokenValue = $request->getAttribute($tokenName);
-        if (!$tokenValue) {
-            if (isset($_SESSION['csrf-token'])) {
-                $sessionTokenValue = $_SESSION['csrf-token'];
-
-                if ($sessionTokenValue !== $tokenValue) {
-                    $this->logger->info("CSRF attempt detected");
-                    return $response->withRedirect('/order');
-                }
-            } else {
-                $tokenValue = $this->csrf->getTokenService()->generate();
-                $_SESSION['csrf-token'] = $tokenValue;
-            }
-        }
-
 
         if (isset($_SESSION['order'])) {
             $order = $_SESSION['order'];
@@ -74,8 +48,6 @@ class OrderController extends BaseController
             'meals' => $mealsOnPage,
             'pages' => $pageCount,
             'currentPage' => $pageNumber,
-            'tokenName' => $tokenName,
-            'tokenValue' => $tokenValue
         ]);
     }
 

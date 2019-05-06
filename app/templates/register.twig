@@ -18,6 +18,8 @@
                 Create an account.
             </h3>
             <form role="form" method="post">
+                <input type="hidden" name="{{ nameKey }}" value="{{ name }}">
+                <input type="hidden" name="{{ valueKey }}" value="{{ value }}">
                 <div class="form-group">
                     <label for="exampleInputEmail1">
                         Username:

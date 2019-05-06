@@ -24,33 +24,52 @@ class CustomerController extends BaseController
 
     public function dispatchLoginPage(Request $request, Response $response, $args)
     {
-        $this->view->render($response, 'index.twig');
-        return $response;
+        if (!isset($_SESSION)) {
+            session_start();
+        }
+
+        $nameKey = $this->csrf->getTokenNameKey();
+        $valueKey = $this->csrf->getTokenValueKey();
+
+        return $this->view->render($response, 'index.twig', [
+            'nameKey' => $nameKey,
+            'valueKey' => $valueKey,
+            'name' => $request->getAttribute($nameKey),
+            'value' => $request->getAttribute($valueKey),
+        ]);
     }
 
     public function login(Request $request, Response $response, $args)
     {
+        if ($request->getAttribute('csrf_status')) {
+            $this->logger->info('Possible CSRF attempt detected');
+            return $response->withRedirect('/');
+        }
+        $this->logger->info('valid request');
+
         $formData = $request->getParsedBody();
         $customer = $this->createCustomerFromFormData($formData);
 
         try {
             $this->customerValidator->validateLogin($customer);
 
-            session_destroy();
-            session_start();
-            $response = $response->withStatus(302)->withHeader('Location', '/order');
+            return $response->withStatus(302)->withHeader('Location', '/order');
         } catch (AuthenticationException $e) {
-            $this->view->render($response, 'index.twig',
-                ['login_error' => $e->getMessage()]);
+            return $this->view->render($response, 'index.twig', ['login_error' => $e->getMessage()]);
         }
-
-        return $response;
     }
 
     public function dispatchRegisterPage(Request $request, Response $response, $args)
     {
-        $this->view->render($response, 'register.twig');
-        return $response;
+        $nameKey = $this->csrf->getTokenNameKey();
+        $valueKey = $this->csrf->getTokenValueKey();
+
+        return $this->view->render($response, 'register.twig', [
+            'nameKey' => $nameKey,
+            'valueKey' => $valueKey,
+            'name' => $request->getAttribute($nameKey),
+            'value' => $request->getAttribute($valueKey),
+        ]);
     }
 
     public function register(Request $request, Response $response, $args)
@@ -96,7 +115,15 @@ class CustomerController extends BaseController
 
     public function dispatchRecoverPasswordPage(Request $request, Response $response, $args)
     {
-        return $this->view->render($response, 'recover-password.twig');
+        $nameKey = $this->csrf->getTokenNameKey();
+        $valueKey = $this->csrf->getTokenValueKey();
+
+        return $this->view->render($response, 'recover-password.twig', [
+            'nameKey' => $nameKey,
+            'valueKey' => $valueKey,
+            'name' => $request->getAttribute($nameKey),
+            'value' => $request->getAttribute($valueKey),
+        ]);
     }
 
     public function recoverPassword(Request $request, Response $response, $args)
