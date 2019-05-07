@@ -104,10 +104,7 @@
                                         <div class="col-md-8">
                                             <div class="d-flex flex-column">
                                                 <h3>
-                                                    <span class="meal-name">{{ meal.dish.name }}</span>
-                                                    {% if meal.assortment %}
-                                                        met <span class="assortment-name">{{ meal.assortment.name }} </span>
-                                                    {% endif %}
+                                                    {{ meal }}
                                                 </h3>
                                                 <p>Prijs: <span class="meal-price">{{ meal.price }} euro</span></p>
                                             </div>
@@ -128,6 +125,8 @@
                         </ul>
                         {% if meals|length > 0 %}
                             <form action="order/confirm" method="post">
+                                <input type="hidden" name="{{ nameKey }}" value="{{ name }}">
+                                <input type="hidden" name="{{ valueKey }}" value="{{ value }}">
                                 <input type="submit" class="btn btn-primary" value="Bestellen">
                             </form>
                         {% endif %}

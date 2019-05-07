@@ -93,6 +93,10 @@ class Meal
 
     public function __toString()
     {
-        return "{ id: " . $this->getId() . ", dish: " . $this->getDish() . ", assortment: " . $this->getAssortment() . " }";
+        $name = $this->getDish()->getName();
+        if ($this->getAssortment()) {
+            $name = $name . " met " . $this->getAssortment()->getName();
+        }
+        return $name;
     }
 }

@@ -25,7 +25,6 @@ class OrderController extends BaseController
 
     public function dispatch(Request $request, Response $response, $args)
     {
-
         if (isset($_SESSION['order'])) {
             $order = $_SESSION['order'];
             if ($this->dishWasAdded($request)) {
@@ -58,7 +57,9 @@ class OrderController extends BaseController
 
     public function confirmOrder(Request $request, Response $response, $args) {
         session_destroy();
-        return $response->withRedirect('/');
+        return $this->view->render($response, 'checkout.twig', [
+            "order" => $_SESSION['order'],
+        ]);
     }
 
     public function deleteFromOrder(Request $request, Response $response, $args) {

@@ -16,13 +16,16 @@ class Order
 {
     /** @Id @Column(type="integer") @GeneratedValue **/
     private $id;
-
     private $customer;
 
     /**
      * @OneToMany(targetEntity="Meal", mappedBy="order", cascade={"persist"})
      */
     private $meals;
+
+    private $price;
+    private $taxes;
+    private $totalPrice;
 
     /**
      * Order constructor.
@@ -72,7 +75,6 @@ class Order
         return $this->meals->count();
     }
 
-
     /**
      * @param mixed $customers
      */
@@ -88,7 +90,7 @@ class Order
 
     public function deleteMeal(int $id): void
     {
-        for($i = 0; $i < $this->meals->count(); $i++) {
+        for ($i = 0; $i < $this->meals->count(); $i++) {
             if ($this->meals[$i]->getId() == $id) {
                 unset($this->meals[$i]);
                 break;
@@ -96,9 +98,32 @@ class Order
         }
     }
 
+    /**
+     * @return mixed
+     */
+    public function getPrice()
+    {
+        $totalPrice = 0;
+        for ($i = 0; $i < $this->meals->count(); $i++) {
+            $meal = $this->meals[$i];
+            if ($meal) {
+                $totalPrice += $this->meals[$i]->getPrice();
+            }
+        }
+        return $totalPrice;
+    }
+
+    public function getTaxes() {
+        return $this->getPrice() * 0.06;
+    }
+
+    public function getTotalPrice() {
+        return $this->getPrice() + $this->getTaxes();
+    }
+
     public function __toString()
     {
-
         return "{ meals: [" . implode($this->getMeals()->toArray()) . " ], customer: " . $this->getCustomer() . " }";
     }
+
 }

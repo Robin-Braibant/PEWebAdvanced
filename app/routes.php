@@ -22,6 +22,9 @@ $app->post('/recover-password', 'App\Controller\CustomerController:recoverPasswo
 $app->get('/order', 'App\Controller\OrderController:dispatch')
     ->setname('orderpage');
 
+$app->get('/checkout', 'App\Controller\OrderController:dispatchCheckoutPage')
+    ->setname('checkoutpage');
+
 $app->post('/order/add/{id}', 'App\Controller\OrderController:addToOrder')
     ->setname('addToOrder');
 

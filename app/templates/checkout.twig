@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+</html>
+<link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<!------ Include the above in your HEAD tag ---------->
+
+<div class="container">
+    <div class="row">
+        <div class="well col-xs-10 col-sm-10 col-md-6 col-xs-offset-1 col-sm-offset-1 col-md-offset-3">
+            <div class="row">
+                <div class="col-xs-6 col-sm-6 col-md-6">
+                    <address>
+                        <strong>Fu King</strong>
+                        <br>
+                        Diepenbeek
+                        <br>
+                        Ginderoverstraat 60
+                        <br>
+                        <abbr title="Phone">P:</abbr> (+32) 4884 12 34 56
+                    </address>
+                </div>
+{#                <div class="col-xs-6 col-sm-6 col-md-6 text-right">
+                    <p>
+                        <em>Date: 1st November, 2013</em>
+                    </p>
+                </div>#}
+            </div>
+            <div class="row">
+                <div class="text-center">
+                    <h1>Receipt</h1>
+                </div>
+                </span>
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th  colspan="3">Product</th>
+                        <th class="text-center">Price</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    {% for meal in order.meals %}
+                    <tr>
+                            <td class="col-md-9" colspan="3"><em>{{ meal }}</em></h4></td>
+                            <td class="col-md-1 text-center">€{{ meal.price }}</td>
+                    </tr>
+                    {% endfor %}
+                    <tr>
+                        <td>   </td>
+                        <td>   </td>
+                        <td class="text-right">
+                            <p>
+                                <strong>Subtotal: </strong>
+                            </p>
+                            <p>
+                                <strong>Tax: </strong>
+                            </p></td>
+                        <td class="text-center">
+                            <p>
+                                <strong>€{{ order.price }}</strong>
+                            </p>
+                            <p>
+                                <strong>€{{ order.taxes }}</strong>
+                            </p></td>
+                    </tr>
+                    <tr>
+                        <td>   </td>
+                        <td>   </td>
+                        <td class="text-right"><h4><strong>Total: </strong></h4></td>
+                        <td class="text-center text-danger"><h4><strong>€{{ order.totalPrice }}</strong></h4></td>
+                    </tr>
+                    </tbody>
+                </table>
+                <a href="/" type="button" class="btn btn-primary btn-lg btn-block">
+                    <span class="glyphicon glyphicon-chevron-left"></span>  Keer terug
+                </a>
+            </div>
+        </div>
+    </div>
