@@ -32,13 +32,14 @@
                         </div>
                         <div class="modal-footer">
                             <form action="order/delete" method="post">
+                                <input type="hidden" name="{{ nameKey }}" value="{{ name }}">
+                                <input type="hidden" name="{{ valueKey }}" value="{{ value }}">
                                 <input type="hidden" id="meal-id-input" name="meal-id">
                                 <input type="submit" class="btn btn-primary" value="Verwijderen">
                                 <button type="button" class="btn btn-default" data-dismiss="modal">Annuleer</button>
                             </form>
                         </div>
                     </div>
-
                 </div>
             </div>
             <br>

@@ -42,13 +42,18 @@ class OrderController extends BaseController
         $mealsOnPage = $order->getMealsOnPage($pageNumber, self::$PAGE_SIZE);
         $pageCount = ceil($order->mealCount() / self::$PAGE_SIZE);
 
-        return $this->view->render($response, 'order.twig', [
+        $tokens = $this->csrfTokenManager->generateTokens($request);
+
+        $templateData = [
             'dishes' => $this->entityManager->getRepository('\App\Model\Dish')->findAll(),
             'assortments' => $this->entityManager->getRepository('\App\Model\Assortment')->findAll(),
             'meals' => $mealsOnPage,
             'pages' => $pageCount,
             'currentPage' => $pageNumber,
-        ]);
+        ];
+        $templateData = array_merge($tokens, $templateData);
+
+        return $this->view->render($response, 'order.twig', $templateData);
     }
 
     public function confirmOrder(Request $request, Response $response, $args) {

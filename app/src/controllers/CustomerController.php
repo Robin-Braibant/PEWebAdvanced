@@ -28,15 +28,9 @@ class CustomerController extends BaseController
             session_start();
         }
 
-        $nameKey = $this->csrf->getTokenNameKey();
-        $valueKey = $this->csrf->getTokenValueKey();
+        $tokens = $this->csrfTokenManager->generateTokens($request);
 
-        return $this->view->render($response, 'index.twig', [
-            'nameKey' => $nameKey,
-            'valueKey' => $valueKey,
-            'name' => $request->getAttribute($nameKey),
-            'value' => $request->getAttribute($valueKey),
-        ]);
+        return $this->view->render($response, 'index.twig', $tokens);
     }
 
     public function login(Request $request, Response $response, $args)
@@ -61,15 +55,9 @@ class CustomerController extends BaseController
 
     public function dispatchRegisterPage(Request $request, Response $response, $args)
     {
-        $nameKey = $this->csrf->getTokenNameKey();
-        $valueKey = $this->csrf->getTokenValueKey();
+        $tokens = $this->csrfTokenManager->generateTokens($request);
 
-        return $this->view->render($response, 'register.twig', [
-            'nameKey' => $nameKey,
-            'valueKey' => $valueKey,
-            'name' => $request->getAttribute($nameKey),
-            'value' => $request->getAttribute($valueKey),
-        ]);
+        return $this->view->render($response, 'register.twig', $tokens);
     }
 
     public function register(Request $request, Response $response, $args)
@@ -115,15 +103,9 @@ class CustomerController extends BaseController
 
     public function dispatchRecoverPasswordPage(Request $request, Response $response, $args)
     {
-        $nameKey = $this->csrf->getTokenNameKey();
-        $valueKey = $this->csrf->getTokenValueKey();
+        $tokens = $this->csrfTokenManager->generateTokens($request);
 
-        return $this->view->render($response, 'recover-password.twig', [
-            'nameKey' => $nameKey,
-            'valueKey' => $valueKey,
-            'name' => $request->getAttribute($nameKey),
-            'value' => $request->getAttribute($valueKey),
-        ]);
+        return $this->view->render($response, 'recover-password.twig', $tokens);
     }
 
     public function recoverPassword(Request $request, Response $response, $args)

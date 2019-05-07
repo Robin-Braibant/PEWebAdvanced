@@ -62,6 +62,10 @@ $container['App\Controller\CustomerController'] = function ($c) {
     return new App\Controller\CustomerController($c);
 };
 
+$container['csrfTokenManager'] = function ($c) {
+    return new App\Helper\CsrfTokenManager($c);
+};
+
 $container['App\Controller\OrderController'] = function ($c) {
     return new App\Controller\OrderController($c);
 };
